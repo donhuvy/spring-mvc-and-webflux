@@ -36,7 +36,7 @@ import java.util.Objects;
 /**
  * Created by Iuliana Cosmina on 12/07/2020
  */
-@Document(collection="book")
+@Document(collection = "book")
 public class Book {
 	@Id
 	private String id;
@@ -46,13 +46,12 @@ public class Book {
 
 	@Indexed(unique = true)
 	private String isbn;
-
-	public Book() {
-	}
-
 	// Just limit to {"Spring", "Java", "Web"}
 	//just embed here
 	private String category;
+
+	public Book() {
+	}
 
 	public Book(String title, String author, String isbn, String category) {
 		this.title = title;

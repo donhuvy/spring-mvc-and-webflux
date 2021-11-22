@@ -1,9 +1,15 @@
 package com.apress.prospringmvc.bookstore.domain;
 
 import com.apress.prospringmvc.bookstore.formatter.DateFormat;
-import org.hibernate.annotations.Fetch;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -16,105 +22,103 @@ import java.util.List;
  * A account resembles an authenticated user of our system. A account is able to submit orders. A account is identified
  * by his or her username. When authenticating the user supplies its username and password. Besides identification
  * information we also store basic legal information such as address, firstname, lastname and email address.
- * 
- * @author Marten Deinum
-
  *
+ * @author Marten Deinum
  */
 @Entity
 @SuppressWarnings("serial")
 public class Account implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String firstName;
-    private String lastName;
+	private String firstName;
+	private String lastName;
 
-    @DateFormat(format = "YYYY-MM-DD")
-    private Date dateOfBirth;
+	@DateFormat(format = "YYYY-MM-DD")
+	private Date dateOfBirth;
 
-    @Embedded
-    @Valid
-    private Address address = new Address();
+	@Embedded
+	@Valid
+	private Address address = new Address();
 
-    @NotEmpty
-    @Email
-    private String emailAddress;
-    @NotEmpty
-    private String username;
-    @NotEmpty
-    private String password;
+	@NotEmpty
+	@Email
+	private String emailAddress;
+	@NotEmpty
+	private String username;
+	@NotEmpty
+	private String password;
 
-	  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private List<Role> roles = new ArrayList<>();
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	private List<Role> roles = new ArrayList<>();
 
-    public Long getId() {
-        return this.id;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public String getFirstName() {
-        return this.firstName;
-    }
+	public String getFirstName() {
+		return this.firstName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public String getLastName() {
-        return this.lastName;
-    }
+	public String getLastName() {
+		return this.lastName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public String getEmailAddress() {
-        return this.emailAddress;
-    }
+	public String getEmailAddress() {
+		return this.emailAddress;
+	}
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
 
-    public String getUsername() {
-        return this.username;
-    }
+	public String getUsername() {
+		return this.username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getPassword() {
-        return this.password;
-    }
+	public String getPassword() {
+		return this.password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public Address getAddress() {
-        return this.address;
-    }
+	public Address getAddress() {
+		return this.address;
+	}
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
-    public Date getDateOfBirth() {
-        return this.dateOfBirth;
-    }
+	public Date getDateOfBirth() {
+		return this.dateOfBirth;
+	}
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 
-    public List<Role> getRoles() {
-        return this.roles;
-    }
+	public List<Role> getRoles() {
+		return this.roles;
+	}
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 }

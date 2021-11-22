@@ -44,24 +44,24 @@ import javax.annotation.PostConstruct;
 @Component
 public class ServiceUriBuilder {
 	private static Logger logger = LoggerFactory.getLogger(ServiceUriBuilder.class);
-	final ReactiveLoadBalancer.Factory<ServiceInstance>  loadBalancerfactory;
+	final ReactiveLoadBalancer.Factory<ServiceInstance> loadBalancerfactory;
 
 	public ServiceUriBuilder(ReactiveLoadBalancer.Factory<ServiceInstance> loadBalancerfactory) {
 		this.loadBalancerfactory = loadBalancerfactory;
 	}
 
 	@PostConstruct
-	public void getServiceURIs(){
-		Flux.just("technews-service","newreleases-service","book-service","account-service")
+	public void getServiceURIs() {
+		Flux.just("technews-service", "newreleases-service", "book-service", "account-service")
 				.map(serviceId -> {
 					ReactiveLoadBalancer<ServiceInstance> loadBalancer = loadBalancerfactory.getInstance(serviceId);
 					Flux<Response<ServiceInstance>> chosen = Flux.from(loadBalancer.choose());
 					chosen.map(responseServiceInstance -> {
-								ServiceInstance server = responseServiceInstance.getServer();
-								var url = "http://" + server.getHost() + ':' + server.getPort();
-								logger.debug("--->> {} : {}", serviceId, url);
-								return url;
-							}).subscribe();
+						ServiceInstance server = responseServiceInstance.getServer();
+						var url = "http://" + server.getHost() + ':' + server.getPort();
+						logger.debug("--->> {} : {}", serviceId, url);
+						return url;
+					}).subscribe();
 					return serviceId;
 				}).subscribe();
 	}

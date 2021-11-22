@@ -41,13 +41,12 @@ import org.springframework.validation.Validator;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
 import reactor.core.publisher.Mono;
 
 import javax.validation.ValidationException;
 import java.net.URI;
 
-import static org.springframework.web.reactive.function.server.ServerResponse.*;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 
 /**
@@ -55,14 +54,14 @@ import static org.springframework.web.reactive.function.server.ServerResponse.*;
  */
 @Component
 public class BookHandler {
-	private final Logger logger = LoggerFactory.getLogger(BookHandler.class);
-
-	private BookstoreService bookstoreService;
-	private final Validator validator = new BookValidator();
-
 	public final HandlerFunction<ServerResponse> list;
 	public final HandlerFunction<ServerResponse> random;
 	public final HandlerFunction<ServerResponse> delete;
+	private final Logger logger = LoggerFactory.getLogger(BookHandler.class);
+	private final Validator validator = new BookValidator();
+	private BookstoreService bookstoreService;
+	public HandlerFunction<ServerResponse> update = serverRequest -> ServerResponse.noContent()
+			.build(bookstoreService.updateByIsbn(serverRequest.pathVariable("isbn"), serverRequest.bodyToMono(Book.class)));
 
 	public BookHandler(BookstoreService bookstoreService) {
 		this.bookstoreService = bookstoreService;
@@ -70,7 +69,7 @@ public class BookHandler {
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(bookstoreService.findBooks(new BookSearchCriteria()), Book.class);
 
-		random = serverRequest ->ok()
+		random = serverRequest -> ok()
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(bookstoreService.findRandomBooks(), Book.class);
 
@@ -84,14 +83,11 @@ public class BookHandler {
 						.body(bookstoreService.findBooks(criteria), Book.class));
 	}
 
-	public HandlerFunction<ServerResponse> update = serverRequest -> ServerResponse.noContent()
-			.build(bookstoreService.updateByIsbn(serverRequest.pathVariable("isbn"), serverRequest.bodyToMono(Book.class)));
-
 	public Mono<ServerResponse> create(ServerRequest serverRequest) {
 		return serverRequest.bodyToMono(Book.class)
 				.flatMap(this::validate)
-					.flatMap(book -> bookstoreService.addBook(book))
-					.flatMap(book -> ServerResponse.created(URI.create("/book/isbn/" + book.getIsbn()))
+				.flatMap(book -> bookstoreService.addBook(book))
+				.flatMap(book -> ServerResponse.created(URI.create("/book/isbn/" + book.getIsbn()))
 						.contentType(MediaType.APPLICATION_JSON).bodyValue(book))
 				.onErrorResume(error -> ServerResponse.badRequest().bodyValue(error));
 	}

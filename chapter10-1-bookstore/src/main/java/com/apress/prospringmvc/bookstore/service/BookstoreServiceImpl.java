@@ -27,7 +27,11 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore.service;
 
-import com.apress.prospringmvc.bookstore.document.*;
+import com.apress.prospringmvc.bookstore.document.Account;
+import com.apress.prospringmvc.bookstore.document.Book;
+import com.apress.prospringmvc.bookstore.document.Cart;
+import com.apress.prospringmvc.bookstore.document.Order;
+import com.apress.prospringmvc.bookstore.document.OrderDetail;
 import com.apress.prospringmvc.bookstore.repository.AccountRepository;
 import com.apress.prospringmvc.bookstore.repository.BookRepository;
 import com.apress.prospringmvc.bookstore.util.BookSearchCriteria;
@@ -50,7 +54,7 @@ import java.util.UUID;
  */
 @Service
 @Transactional(readOnly = true)
-public class BookstoreServiceImpl implements  BookstoreService {
+public class BookstoreServiceImpl implements BookstoreService {
 	private static final int RANDOM_BOOKS = 2;
 
 	private final BookRepository bookRepository;
@@ -90,7 +94,7 @@ public class BookstoreServiceImpl implements  BookstoreService {
 
 	@Override
 	public Flux<Book> findBooks(BookSearchCriteria bookSearchCriteria) {
-		if(bookSearchCriteria.isEmpty()) {
+		if (bookSearchCriteria.isEmpty()) {
 			return Flux.empty();
 		}
 		Query query = new Query();
@@ -134,17 +138,17 @@ public class BookstoreServiceImpl implements  BookstoreService {
 	public Mono<Void> updateByIsbn(String bookIsbn, Mono<Book> bookMono) {
 		return bookRepository.findByIsbn(bookIsbn).doOnNext(
 				original ->
-					bookMono.doOnNext(
-							updatedBook -> {
-								original.setTitle(updatedBook.getTitle());
-								original.setAuthor(updatedBook.getAuthor());
-								original.setCategory(updatedBook.getCategory());
-								original.setPrice(updatedBook.getPrice());
-								original.setYear(updatedBook.getYear());
-								// this op should be enabled only for admin users
-								//original.setIsbn(updatedBook.getIsbn());
-								original.setDescription(updatedBook.getDescription());
-					})
+						bookMono.doOnNext(
+								updatedBook -> {
+									original.setTitle(updatedBook.getTitle());
+									original.setAuthor(updatedBook.getAuthor());
+									original.setCategory(updatedBook.getCategory());
+									original.setPrice(updatedBook.getPrice());
+									original.setYear(updatedBook.getYear());
+									// this op should be enabled only for admin users
+									//original.setIsbn(updatedBook.getIsbn());
+									original.setDescription(updatedBook.getDescription());
+								})
 		).then(Mono.empty());
 	}
 }

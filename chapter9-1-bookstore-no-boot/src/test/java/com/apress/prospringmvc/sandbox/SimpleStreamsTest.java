@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Created by Iuliana Cosmina on 02/08/2020
@@ -50,34 +50,10 @@ public class SimpleStreamsTest {
 			new Ball("GREEN", 6), new Ball("RED", 8),
 			new Ball("BLUE", 7), new Ball("BLUE", 3)
 	);
-
-	@Test
-	void testImperative(){
-		int sum = 0;
-		for(Ball ball : bucket) {
-			if (ball.getColor().equals("BLUE") && ball.getDiameter() >= 3) {
-				ball.setColor("RED");
-				sum += ball.getDiameter();
-			}
-		}
-		assertEquals(24, sum);
-	}
-
 	Predicate<Ball> predicate = ball -> ball.getColor().equals("BLUE") && ball.getDiameter() >= 3;
 	Function<Ball, Ball> redBall = ball -> new Ball("RED", ball.getDiameter());
 	Function<Ball, Integer> quantifier = Ball::getDiameter;
-
-	@Test
-	void testDeclarative(){
-		int sum  = bucket.stream()
-				.filter(predicate)
-				.map(redBall)
-				.map(quantifier)
-				.reduce(0, Integer::sum);
-		assertEquals(24, sum);
-	}
-
-	Subscriber<Integer> subscriber =  new BaseSubscriber<>() {
+	Subscriber<Integer> subscriber = new BaseSubscriber<>() {
 		@Override
 		protected void hookOnNext(Integer sum) {
 			System.out.println("Diameter sum is " + sum);
@@ -86,7 +62,29 @@ public class SimpleStreamsTest {
 	};
 
 	@Test
-	void testReactive(){
+	void testImperative() {
+		int sum = 0;
+		for (Ball ball : bucket) {
+			if (ball.getColor().equals("BLUE") && ball.getDiameter() >= 3) {
+				ball.setColor("RED");
+				sum += ball.getDiameter();
+			}
+		}
+		assertEquals(24, sum);
+	}
+
+	@Test
+	void testDeclarative() {
+		int sum = bucket.stream()
+				.filter(predicate)
+				.map(redBall)
+				.map(quantifier)
+				.reduce(0, Integer::sum);
+		assertEquals(24, sum);
+	}
+
+	@Test
+	void testReactive() {
 		Flux.fromIterable(bucket)  // Flux<Ball>
 				.filter(predicate) // Flux<Ball>
 				.map(redBall) // Flux<Ball>
@@ -96,39 +94,39 @@ public class SimpleStreamsTest {
 	}
 
 	@Test
-	void testConcat(){
-		Flux<Ball> red =  Flux.just(new Ball("RED", 1), new Ball("RED", 2), new Ball("RED", 3));
-		Flux<Ball> blue =  Flux.just(new Ball("BLUE", 4), new Ball("BLUE", 5), new Ball("BLUE", 6));
+	void testConcat() {
+		Flux<Ball> red = Flux.just(new Ball("RED", 1), new Ball("RED", 2), new Ball("RED", 3));
+		Flux<Ball> blue = Flux.just(new Ball("BLUE", 4), new Ball("BLUE", 5), new Ball("BLUE", 6));
 		Flux<Integer> numbers = Flux.just(5, 6, 9, 8);
 
-		Flux.concat(red,blue).subscribe(ball -> System.out.println(ball.toString()));
+		Flux.concat(red, blue).subscribe(ball -> System.out.println(ball.toString()));
 		System.out.println("-----------------");
 		red.concatWith(blue).subscribe(ball -> System.out.println(ball.toString()));
 		System.out.println("-----------------");
 		Flux.concat(red, numbers).subscribe(ball -> System.out.println(ball.toString()));
 		System.out.println("-----------------");
-		Flux.merge(red,blue).subscribe(ball -> System.out.println(ball.toString()));
+		Flux.merge(red, blue).subscribe(ball -> System.out.println(ball.toString()));
 		System.out.println("-----------------");
 		red.mergeWith(blue).subscribe(ball -> System.out.println(ball.toString()));
 		System.out.println("-----------------");
-		Flux.zip(red,blue).subscribe(tuple -> System.out.println(tuple.toString()));
+		Flux.zip(red, blue).subscribe(tuple -> System.out.println(tuple.toString()));
 		System.out.println("-----------------");
 		red.zipWith(blue).subscribe(tuple -> System.out.println(tuple.toString()));
 	}
 
 	@Test
-	void testMerge(){
+	void testMerge() {
 
 	}
 
 	@Test
-	void testZip(){
+	void testZip() {
 
 	}
 
 }
 
-class Ball{
+class Ball {
 
 	String color;
 	int diameter;
@@ -150,15 +148,15 @@ class Ball{
 		return diameter;
 	}
 
+	public void setDiameter(int diameter) {
+		this.diameter = diameter;
+	}
+
 	public String getColor() {
 		return color;
 	}
 
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	public void setDiameter(int diameter) {
-		this.diameter = diameter;
 	}
 }

@@ -40,7 +40,7 @@ public interface AccountRepository extends ReactiveMongoRepository<Account, Stri
 	//@Query("{'username': ?0  }")
 	Mono<Account> findByUsername(String username);
 
-	@Query(value= "{'username': ?0  }", fields = "{'username': 1, 'password' :1, 'roles': 1 }")
+	@Query(value = "{'username': ?0  }", fields = "{'username': 1, 'password' :1, 'roles': 1 }")
 	Mono<Account> findLightByUsername(String username);
 
 }

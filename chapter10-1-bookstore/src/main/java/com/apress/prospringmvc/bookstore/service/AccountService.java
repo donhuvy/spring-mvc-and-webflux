@@ -14,6 +14,7 @@ public interface AccountService {
 
 	/**
 	 * Loading only data for Authentication and Authorization
+	 *
 	 * @param username
 	 * @return
 	 */

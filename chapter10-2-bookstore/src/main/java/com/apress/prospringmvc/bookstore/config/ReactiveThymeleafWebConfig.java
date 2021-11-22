@@ -35,7 +35,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.format.datetime.DateTimeFormatAnnotationFormatterFactory;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.ViewResolverRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
@@ -56,26 +55,26 @@ public class ReactiveThymeleafWebConfig implements WebFluxConfigurer {
 		this.thymeleafTemplateEngine = templateEngine;
 	}
 
-		@Bean
-		public ThymeleafReactiveViewResolver thymeleafReactiveViewResolver() {
-			var viewResolver = new ThymeleafReactiveViewResolver();
-			viewResolver.setTemplateEngine(thymeleafTemplateEngine);
-			viewResolver.setOrder(1);
-			return viewResolver;
-		}
+	@Bean
+	public ThymeleafReactiveViewResolver thymeleafReactiveViewResolver() {
+		var viewResolver = new ThymeleafReactiveViewResolver();
+		viewResolver.setTemplateEngine(thymeleafTemplateEngine);
+		viewResolver.setOrder(1);
+		return viewResolver;
+	}
 
-		@Override
-		public void configureViewResolvers(ViewResolverRegistry registry) {
-			registry.viewResolver(thymeleafReactiveViewResolver());
-		}
+	@Override
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		registry.viewResolver(thymeleafReactiveViewResolver());
+	}
 
-		@Bean
-		public MessageSource messageSource() {
-			var messageSource = new ResourceBundleMessageSource();
-			messageSource.setBasenames("languages/messages");
-			messageSource.setDefaultEncoding("UTF-8");
-			return messageSource;
-		}
+	@Bean
+	public MessageSource messageSource() {
+		var messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasenames("languages/messages");
+		messageSource.setDefaultEncoding("UTF-8");
+		return messageSource;
+	}
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {

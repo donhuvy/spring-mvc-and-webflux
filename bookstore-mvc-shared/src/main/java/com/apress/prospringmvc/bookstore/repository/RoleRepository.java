@@ -33,7 +33,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Created by Iuliana Cosmina on 13/06/2020
  */
-public interface RoleRepository  extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	Role findByRole(String role);
 

@@ -1,16 +1,13 @@
 package com.apress.prospringmvc.bookstore.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.apress.prospringmvc.bookstore.domain.Category;
+import com.apress.prospringmvc.bookstore.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.apress.prospringmvc.bookstore.domain.Category;
-import com.apress.prospringmvc.bookstore.repository.CategoryRepository;
-
 /**
- * @see CategoryService
  * @author Marten Deinum
- *
+ * @see CategoryService
  */
 @Service
 @Transactional(readOnly = true)

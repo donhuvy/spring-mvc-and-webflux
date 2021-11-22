@@ -47,6 +47,9 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Service
 public class BookHandler {
 
+	public final HandlerFunction<ServerResponse> main = serverRequest -> ok()
+			.contentType(MediaType.TEXT_HTML)
+			.bodyValue("Book service up and running!");
 	private final BookService bookService;
 	public HandlerFunction<ServerResponse> update;
 	public HandlerFunction<ServerResponse> delete;
@@ -63,10 +66,6 @@ public class BookHandler {
 				.contentType(MediaType.TEXT_EVENT_STREAM)
 				.body(bookService.findRandomBooks(), Book.class);
 	}
-
-	public final HandlerFunction<ServerResponse> main = serverRequest -> ok()
-			.contentType(MediaType.TEXT_HTML)
-			.bodyValue("Book service up and running!");
 
 	public Mono<ServerResponse> search(ServerRequest serverRequest) {
 		return serverRequest.bodyToMono(BookSearchCriteria.class)

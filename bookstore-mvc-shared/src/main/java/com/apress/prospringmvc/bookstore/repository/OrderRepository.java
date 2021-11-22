@@ -8,17 +8,17 @@ import java.util.List;
 
 /**
  * Repository for working with {@link Order} domain objects
- *  
- * @author Marten Deinum
  *
+ * @author Marten Deinum
  */
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    /**
-     * Find the orders for the given {@link Account}.
-     * @param account the account
-     * @return list of orders for the account, never <code>null</code>
-     */
-    List<Order> findByAccount(Account account);
+	/**
+	 * Find the orders for the given {@link Account}.
+	 *
+	 * @param account the account
+	 * @return list of orders for the account, never <code>null</code>
+	 */
+	List<Order> findByAccount(Account account);
 
 }

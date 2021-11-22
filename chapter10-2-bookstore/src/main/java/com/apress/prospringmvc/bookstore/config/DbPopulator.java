@@ -40,8 +40,9 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
-import static com.apress.prospringmvc.bookstore.document.Book.Category;
+
 import static com.apress.prospringmvc.bookstore.document.Account.Authority;
+import static com.apress.prospringmvc.bookstore.document.Book.Category;
 
 /**
  * Created by Iuliana Cosmina on 28/06/2020
@@ -62,16 +63,16 @@ public class DbPopulator {
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
-	public void init(){
+	public void init() {
 		List<Book> books = List.of(
-				new Book("Spring Boot 2 Recipes", BigDecimal.valueOf(37.44), 2017,"Marten Deinum", "9781484227893", Category.SPRING),
-				new Book("Pivotal Certified Professional Core Spring 5 Developer Exam", BigDecimal.valueOf(54.99), 2018,"Iuliana Cosmina", "9781484251355", Category.SPRING),
-				new Book("Java for Absolute Beginners", BigDecimal.valueOf(24.99), 2020,"Iuliana Cosmina", "9781484237779", Category.JAVA),
-				new Book("Java for Absolute Beginners, 2nd Edition", BigDecimal.valueOf(54.99), 2021,"Iuliana Cosmina", "9781484230042", Category.JAVA)
+				new Book("Spring Boot 2 Recipes", BigDecimal.valueOf(37.44), 2017, "Marten Deinum", "9781484227893", Category.SPRING),
+				new Book("Pivotal Certified Professional Core Spring 5 Developer Exam", BigDecimal.valueOf(54.99), 2018, "Iuliana Cosmina", "9781484251355", Category.SPRING),
+				new Book("Java for Absolute Beginners", BigDecimal.valueOf(24.99), 2020, "Iuliana Cosmina", "9781484237779", Category.JAVA),
+				new Book("Java for Absolute Beginners, 2nd Edition", BigDecimal.valueOf(54.99), 2021, "Iuliana Cosmina", "9781484230042", Category.JAVA)
 		);
 
 		bookRepository.deleteAll().thenMany(
-				bookRepository.saveAll(books))
+						bookRepository.saveAll(books))
 				.thenMany(bookRepository.findAll())
 				.subscribe(
 						data -> logger.info("found books: {}", bookRepository),
@@ -116,7 +117,7 @@ public class DbPopulator {
 		admin.setRoles(List.of(Authority.ROLE_ADMIN));
 
 		accountRepository.deleteAll().thenMany(
-				accountRepository.saveAll(List.of(john, jane, admin)))
+						accountRepository.saveAll(List.of(john, jane, admin)))
 				.thenMany(accountRepository.findAll())
 				.subscribe(
 						data -> logger.info("found accounts: {}", accountRepository),

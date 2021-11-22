@@ -27,10 +27,7 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.FluxExchangeResult;
@@ -51,7 +48,7 @@ public class BookstoreApplicationTest {
 	private WebTestClient client;
 
 	@Test
-	public void shouldReturnABook(){
+	public void shouldReturnABook() {
 		client.get().uri("/books/{isbn}", "9781484227893")
 				.exchange()
 				.expectStatus().isOk()

@@ -17,13 +17,13 @@ public class MoneyTransferServiceImpl extends AbstractMoneyTransferService {
 		return this.accountRepository;
 	}
 
+	public void setAccountRepository(AccountRepository accountRepository) {
+		this.accountRepository = accountRepository;
+	}
+
 	@Override
 	protected TransactionRepository getTransactionRepository() {
 		return this.transactionRepository;
-	}
-
-	public void setAccountRepository(AccountRepository accountRepository) {
-		this.accountRepository = accountRepository;
 	}
 
 	public void setTransactionRepository(TransactionRepository transactionRepository) {

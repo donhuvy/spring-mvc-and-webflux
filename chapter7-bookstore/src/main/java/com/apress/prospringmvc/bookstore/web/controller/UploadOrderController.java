@@ -4,14 +4,13 @@ import com.apress.prospringmvc.bookstore.service.FileStorageService;
 import com.apress.prospringmvc.bookstore.web.UploadOrderForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Controller to handle file uploads.
- * 
+ *
  * @author Marten Deinum
  */
 @Controller
@@ -29,7 +28,7 @@ public class UploadOrderController {
 	public String handleUpload(UploadOrderForm form, RedirectAttributes redirectAttributes) {
 		logFile(form.getOrder().getName(), form.getOrder().getSize());
 		fileStorageService.store(form.getOrder());
-		redirectAttributes.addFlashAttribute("message",  "Order was successfully uploaded!");
+		redirectAttributes.addFlashAttribute("message", "Order was successfully uploaded!");
 		return "redirect:/customer/account";
 	}
 

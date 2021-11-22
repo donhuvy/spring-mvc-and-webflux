@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Controller to handle file uploads.
- * 
+ *
  * @author Marten Deinum
  */
 @Controller
@@ -28,7 +28,7 @@ public class UploadOrderController {
 	public String handleUpload(UploadOrderForm form, RedirectAttributes redirectAttributes) {
 		logFile(form.getOrder().getName(), form.getOrder().getSize());
 		fileStorageService.store(form.getOrder());
-		redirectAttributes.addFlashAttribute("message",  "Order was successfully uploaded!");
+		redirectAttributes.addFlashAttribute("message", "Order was successfully uploaded!");
 		return "redirect:/customer/account";
 	}
 

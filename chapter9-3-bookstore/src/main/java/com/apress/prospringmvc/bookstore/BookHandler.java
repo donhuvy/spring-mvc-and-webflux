@@ -69,7 +69,7 @@ public class BookHandler {
 
 	/* 4 */
 	public Mono<ServerResponse> save(ServerRequest serverRequest) {
-		Mono<Book> bookMono =  serverRequest.bodyToMono(Book.class).doOnNext(bookService::save);
+		Mono<Book> bookMono = serverRequest.bodyToMono(Book.class).doOnNext(bookService::save);
 		return bookMono
 				.flatMap(book -> ServerResponse.created(URI.create("/books/" + book.getId()))
 						.contentType(MediaType.APPLICATION_JSON).bodyValue(book))

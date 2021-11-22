@@ -49,8 +49,8 @@ public class TechNewsFluxTest {
 		var techNews = Flux.fromStream(Stream.generate(BookNewReleasesUtil::randomNews)).take(20).log();
 
 		techNews.subscribe(new BaseSubscriber<>() {
-			int processed;
 			final int limit = 5;
+			int processed;
 
 			@Override
 			protected void hookOnSubscribe(Subscription subscription) {

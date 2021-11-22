@@ -70,27 +70,27 @@ public class BookServiceTest {
 	}
 
 	@Test
-	void testFindBooksByCategory(){
+	void testFindBooksByCategory() {
 		bookstoreService.findBooksByCategory("Dim").log().as(StepVerifier::create)
 				.expectNextCount(2)
 				.verifyComplete();
 	}
 
 	@Test
-	void testFindRandomBooks(){
+	void testFindRandomBooks() {
 		bookstoreService.findRandomBooks().log().as(StepVerifier::create)
 				.expectNextCount(2)
 				.verifyComplete();
 	}
 
 	@Test
-	void testFindBooksNone(){
+	void testFindBooksNone() {
 		bookstoreService.findBooks(new BookSearchCriteria()).log().as(StepVerifier::create)
 				.verifyComplete();
 	}
 
 	@Test
-	void testQueryForBooks(){
+	void testQueryForBooks() {
 		BookSearchCriteria criteria = new BookSearchCriteria();
 		criteria.setCategory("Dim");
 		bookstoreService.findBooks(criteria).log().as(StepVerifier::create)

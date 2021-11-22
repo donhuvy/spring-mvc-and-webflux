@@ -29,13 +29,14 @@ package com.apress.prospringmvc.bookstore.controller;
 
 import com.apress.prospringmvc.bookstore.document.Account;
 import com.apress.prospringmvc.bookstore.service.AccountService;
-import com.apress.prospringmvc.bookstore.util.validation.AccountValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
@@ -74,14 +75,14 @@ public class RegistrationController {
 		return account;
 	}
 
-	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
+	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
 	public String handleRegistration(@Valid @ModelAttribute Account account, BindingResult result) {
 		if (result.hasErrors()) {
 			return "customer/register";
 		}
 		// we are not interested in the result of this pipeline, we just want to make sure the user is saved,
 		// and we do not care how fast that happens
-		this.accountService.save(account).doOnNext(acc ->  logger.debug("Account saved")).then(Mono.empty()).subscribe();
+		this.accountService.save(account).doOnNext(acc -> logger.debug("Account saved")).then(Mono.empty()).subscribe();
 		return "redirect:/login";
 	}
 

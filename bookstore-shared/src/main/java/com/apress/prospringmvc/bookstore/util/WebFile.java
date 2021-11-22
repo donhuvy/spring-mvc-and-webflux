@@ -27,8 +27,6 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore.util;
 
-import java.nio.file.Path;
-
 /**
  * Created by Iuliana Cosmina on 24/05/2020
  */

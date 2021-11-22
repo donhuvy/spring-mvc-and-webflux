@@ -30,7 +30,6 @@ package com.apress.prospringmvc.bookstore.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by Iuliana Cosmina on 28/07/2020

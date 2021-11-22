@@ -34,7 +34,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Document(collection="book")
+@Document(collection = "book")
 public class Book {
 
 	@Id
@@ -48,12 +48,11 @@ public class Book {
 
 	@Indexed(unique = true)
 	private String isbn;
+	// Just limit to {"Spring", "Java", "Web"}
+	private String category;
 
 	public Book() {
 	}
-
-	// Just limit to {"Spring", "Java", "Web"}
-	private String category;
 
 	public Book(String title, String author, String isbn, String category) {
 		this.title = title;
@@ -144,9 +143,9 @@ public class Book {
 		Book book = (Book) o;
 		return Objects.equals(id, book.id) ||
 				Objects.equals(title, book.title) &&
-				Objects.equals(author, book.author) &&
-				Objects.equals(isbn, book.isbn) &&
-				Objects.equals(category, book.category);
+						Objects.equals(author, book.author) &&
+						Objects.equals(isbn, book.isbn) &&
+						Objects.equals(category, book.category);
 	}
 
 	@Override

@@ -23,7 +23,6 @@ import java.util.List;
 
 /**
  * @author Marten Deinum
-
  */
 @Entity
 // order is a reserved SQL keyword, hence the explicit table definition
@@ -31,10 +30,14 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class Order implements Serializable {
 
+	// One to many creates a join table by default, prevent this as
+	// order detail is our specific join table
+	@JoinColumn(name = "order_id")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private final List<OrderDetail> orderDetails = new ArrayList<>();
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@Embedded
 	@AttributeOverrides({
 			@AttributeOverride(name = "street", column = @Column(name = "shipping_street")),
@@ -44,7 +47,6 @@ public class Order implements Serializable {
 			@AttributeOverride(name = "postalCode", column = @Column(name = "shipping_postalCode")),
 			@AttributeOverride(name = "country", column = @Column(name = "shipping_country"))})
 	private Address shippingAddress;
-
 	@Embedded
 	@AttributeOverrides({
 			@AttributeOverride(name = "street", column = @Column(name = "billing_street")),
@@ -54,22 +56,12 @@ public class Order implements Serializable {
 			@AttributeOverride(name = "postalCode", column = @Column(name = "billing_postalCode")),
 			@AttributeOverride(name = "country", column = @Column(name = "billing_country"))})
 	private Address billingAddress;
-
 	@ManyToOne(optional = false)
 	private Account account;
-
 	private boolean billingSameAsShipping = true;
-
 	private Date orderDate;
 	private Date deliveryDate;
-
 	private BigDecimal totalOrderPrice = BigDecimal.ZERO;
-
-	// One to many creates a join table by default, prevent this as
-	// order detail is our specific join table
-	@JoinColumn(name = "order_id")
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private final List<OrderDetail> orderDetails = new ArrayList<>();
 
 	public Order() {
 		super();
@@ -112,12 +104,12 @@ public class Order implements Serializable {
 		return this.id;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
 	public Account getAccount() {
 		return this.account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public List<OrderDetail> getOrderDetails() {

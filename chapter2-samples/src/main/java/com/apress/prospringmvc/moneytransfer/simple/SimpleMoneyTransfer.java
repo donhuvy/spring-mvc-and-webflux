@@ -1,6 +1,5 @@
 package com.apress.prospringmvc.moneytransfer.simple;
 
-import com.apress.prospringmvc.moneytransfer.domain.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -22,7 +22,6 @@ import java.util.Optional;
 
 /**
  * @author Marten Deinum
- *
  * @see BookstoreService
  */
 @Service
@@ -41,7 +40,7 @@ class BookstoreServiceImpl implements BookstoreService {
 		this.categoryRepository = categoryRepository;
 	}
 
-  @Override
+	@Override
 	public List<Book> findBooksByCategory(Category category) {
 		return this.bookRepository.findByCategory(category);
 	}
@@ -67,7 +66,7 @@ class BookstoreServiceImpl implements BookstoreService {
 	public List<Book> findBooks(BookSearchCriteria bookSearchCriteria) {
 
 		Specification<Book> withTitle = (Specification<Book>) (r, q, cb) -> cb.like(cb.upper(r.get("title")), "%" + bookSearchCriteria.getTitle() + "%");
-		Specification<Book> withCategory = (Specification<Book>) (r, q, cb) -> cb.equal(r.<Category> get("category"), bookSearchCriteria.getCategory());
+		Specification<Book> withCategory = (Specification<Book>) (r, q, cb) -> cb.equal(r.<Category>get("category"), bookSearchCriteria.getCategory());
 
 		Specification<Book> books = null;
 

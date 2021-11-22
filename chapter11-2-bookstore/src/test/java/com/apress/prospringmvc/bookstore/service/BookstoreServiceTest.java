@@ -27,7 +27,11 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore.service;
 
-import com.apress.prospringmvc.bookstore.document.*;
+import com.apress.prospringmvc.bookstore.document.Account;
+import com.apress.prospringmvc.bookstore.document.Address;
+import com.apress.prospringmvc.bookstore.document.Book;
+import com.apress.prospringmvc.bookstore.document.Order;
+import com.apress.prospringmvc.bookstore.document.OrderDetail;
 import com.apress.prospringmvc.bookstore.repository.AccountRepository;
 import com.apress.prospringmvc.bookstore.repository.BookRepository;
 import com.apress.prospringmvc.bookstore.repository.RepositoryTest;
@@ -55,9 +59,12 @@ import java.util.List;
 public class BookstoreServiceTest {
 	private final Logger logger = LoggerFactory.getLogger(RepositoryTest.class);
 
-	@Autowired BookRepository bookRepository;
-	@Autowired AccountRepository accountRepository;
-	@Autowired BookstoreService bookstoreService;
+	@Autowired
+	BookRepository bookRepository;
+	@Autowired
+	AccountRepository accountRepository;
+	@Autowired
+	BookstoreService bookstoreService;
 
 	@BeforeEach
 	public void setup() {
@@ -100,27 +107,27 @@ public class BookstoreServiceTest {
 	}
 
 	@Test
-	void testFindBooksByCategory(){
+	void testFindBooksByCategory() {
 		bookstoreService.findBooksByCategory("Dim").log().as(StepVerifier::create)
 				.expectNextCount(2)
 				.verifyComplete();
 	}
 
 	@Test
-	void testFindRandomBooks(){
+	void testFindRandomBooks() {
 		bookstoreService.findRandomBooks().log().as(StepVerifier::create)
 				.expectNextCount(2)
 				.verifyComplete();
 	}
 
 	@Test
-	void testFindBooksNone(){
+	void testFindBooksNone() {
 		bookstoreService.findBooks(new BookSearchCriteria()).log().as(StepVerifier::create)
 				.verifyComplete();
 	}
 
 	@Test
-	void testQueryForBooks(){
+	void testQueryForBooks() {
 		BookSearchCriteria criteria = new BookSearchCriteria();
 		criteria.setCategory("Dim");
 		bookstoreService.findBooks(criteria).log().as(StepVerifier::create)

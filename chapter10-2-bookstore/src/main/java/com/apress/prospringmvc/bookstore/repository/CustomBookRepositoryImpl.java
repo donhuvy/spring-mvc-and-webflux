@@ -28,7 +28,6 @@ SOFTWARE.
 package com.apress.prospringmvc.bookstore.repository;
 
 import com.apress.prospringmvc.bookstore.document.Book;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -42,7 +41,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.samp
 /**
  * Created by Iuliana Cosmina on 26/07/2020
  */
-public class CustomBookRepositoryImpl implements  CustomBookRepository{
+public class CustomBookRepositoryImpl implements CustomBookRepository {
 
 	ReactiveMongoTemplate mongoTemplate;
 
@@ -51,7 +50,8 @@ public class CustomBookRepositoryImpl implements  CustomBookRepository{
 	}
 
 	/**
-	 *  Implements db.book.aggregate([{ $sample: { size: pageable.getPageSize() } }])
+	 * Implements db.book.aggregate([{ $sample: { size: pageable.getPageSize() } }])
+	 *
 	 * @param pageable
 	 * @return
 	 */

@@ -9,13 +9,10 @@ import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
 /**
- * 
  * @author Marten Deinum
-
- *
  */
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "permission" }) })
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"permission"})})
 @SuppressWarnings("serial")
 public class Permission implements Serializable {
 

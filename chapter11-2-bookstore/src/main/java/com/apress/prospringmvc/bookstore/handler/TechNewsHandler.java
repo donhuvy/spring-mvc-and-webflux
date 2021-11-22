@@ -56,7 +56,7 @@ public class TechNewsHandler implements WebSocketHandler {
 				.doOnNext(message -> logger.debug("Client says: {}", message))
 				.then();
 
-		var source =  Flux.fromStream(Stream.generate(BookNewReleasesUtil::randomNews));
+		var source = Flux.fromStream(Stream.generate(BookNewReleasesUtil::randomNews));
 
 		var outbound = session.send(source.map(session::textMessage).delayElements(Duration.ofSeconds(2L)));
 

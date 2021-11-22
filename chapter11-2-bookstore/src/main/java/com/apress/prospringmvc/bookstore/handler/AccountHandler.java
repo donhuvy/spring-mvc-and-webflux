@@ -41,10 +41,10 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import javax.validation.ValidationException;
-
 import java.net.URI;
 
-import static org.springframework.web.reactive.function.server.ServerResponse.*;
+import static org.springframework.web.reactive.function.server.ServerResponse.noContent;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 /**
  * Created by Iuliana Cosmina on 04/08/2020
@@ -52,8 +52,8 @@ import static org.springframework.web.reactive.function.server.ServerResponse.*;
 @Component
 public class AccountHandler {
 
-	private final AccountService accountService;
 	public final HandlerFunction<ServerResponse> delete;
+	private final AccountService accountService;
 
 	public AccountHandler(AccountService accountService) {
 		this.accountService = accountService;
@@ -61,30 +61,30 @@ public class AccountHandler {
 				.build(accountService.deleteByUsername(serverRequest.pathVariable("username")));
 	}
 
-	public Mono<ServerResponse> list(ServerRequest serverRequest){
+	public Mono<ServerResponse> list(ServerRequest serverRequest) {
 		return ok()
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(accountService.findAll(), AccountService.class);
 	}
 
-	public Mono<ServerResponse> add(ServerRequest serverRequest){
+	public Mono<ServerResponse> add(ServerRequest serverRequest) {
 		return serverRequest.bodyToMono(Account.class)
-		.flatMap(this::validate)
-		.flatMap(accountService::create)
+				.flatMap(this::validate)
+				.flatMap(accountService::create)
 				.flatMap(account -> ServerResponse.created(URI.create("/account/" + account.getUsername()))
 						.contentType(MediaType.APPLICATION_JSON).bodyValue(account))
 				.onErrorResume(error -> ServerResponse.badRequest().bodyValue(error));
 	}
 
 	public Mono<ServerResponse> update(ServerRequest serverRequest) {
-	return	serverRequest.bodyToMono(Account.class)
+		return serverRequest.bodyToMono(Account.class)
 				.flatMap(this::validate)
 				.flatMap(account -> accountService.update(serverRequest.pathVariable("username"), account))
 				.then(noContent().build())
-			.onErrorResume(error -> ServerResponse.badRequest().bodyValue(error));
+				.onErrorResume(error -> ServerResponse.badRequest().bodyValue(error));
 	}
 
-	public Mono<Account> validate(Account account){
+	public Mono<Account> validate(Account account) {
 		Validator validator = new AccountValidator();
 		Errors errors = new BeanPropertyBindingResult(account, "account");
 		validator.validate(account, errors);

@@ -1,6 +1,5 @@
 package com.apress.prospringmvc.moneytransfer.service;
 
-import com.apress.prospringmvc.moneytransfer.domain.Account;
 import com.apress.prospringmvc.moneytransfer.domain.MoneyTransferTransaction;
 import com.apress.prospringmvc.moneytransfer.domain.Transaction;
 import com.apress.prospringmvc.moneytransfer.repository.AccountRepository;

@@ -24,7 +24,7 @@ class AccountServiceImpl implements AccountService {
 	@Transactional(readOnly = false)
 	public Account save(Account account) {
 		Account acc = getAccount(account.getUsername());
-		if(acc == null) {
+		if (acc == null) {
 			account.setPassword(sha256Hex(account.getPassword() + "{" + account.getUsername() + "}"));
 		}
 		return this.accountRepository.save(account);

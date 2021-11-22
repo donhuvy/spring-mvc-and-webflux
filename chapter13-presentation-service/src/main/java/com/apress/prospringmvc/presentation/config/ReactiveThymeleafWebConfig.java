@@ -52,38 +52,38 @@ import org.thymeleaf.spring5.view.reactive.ThymeleafReactiveViewResolver;
 @EnableConfigurationProperties(ThymeleafProperties.class)
 public class ReactiveThymeleafWebConfig implements WebFluxConfigurer {
 
-	@Bean
-	public RouterFunction<ServerResponse> staticRouter() {
-		return RouterFunctions
-				.resources("/static/**", new ClassPathResource("static/"));
-	}
-
 	private final ISpringWebFluxTemplateEngine thymeleafTemplateEngine;
 
 	public ReactiveThymeleafWebConfig(ISpringWebFluxTemplateEngine templateEngine) {
 		this.thymeleafTemplateEngine = templateEngine;
 	}
 
-		@Bean
-		public ThymeleafReactiveViewResolver thymeleafReactiveViewResolver() {
-			var viewResolver = new ThymeleafReactiveViewResolver();
-			viewResolver.setTemplateEngine(thymeleafTemplateEngine);
-			viewResolver.setOrder(1);
-			return viewResolver;
-		}
+	@Bean
+	public RouterFunction<ServerResponse> staticRouter() {
+		return RouterFunctions
+				.resources("/static/**", new ClassPathResource("static/"));
+	}
 
-		@Override
-		public void configureViewResolvers(ViewResolverRegistry registry) {
-			registry.viewResolver(thymeleafReactiveViewResolver());
-		}
+	@Bean
+	public ThymeleafReactiveViewResolver thymeleafReactiveViewResolver() {
+		var viewResolver = new ThymeleafReactiveViewResolver();
+		viewResolver.setTemplateEngine(thymeleafTemplateEngine);
+		viewResolver.setOrder(1);
+		return viewResolver;
+	}
 
-		@Bean
-		public MessageSource messageSource() {
-			var messageSource = new ResourceBundleMessageSource();
-			messageSource.setBasenames("languages/messages");
-			messageSource.setDefaultEncoding("UTF-8");
-			return messageSource;
-		}
+	@Override
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		registry.viewResolver(thymeleafReactiveViewResolver());
+	}
+
+	@Bean
+	public MessageSource messageSource() {
+		var messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasenames("languages/messages");
+		messageSource.setDefaultEncoding("UTF-8");
+		return messageSource;
+	}
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {

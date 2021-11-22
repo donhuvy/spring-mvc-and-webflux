@@ -49,22 +49,21 @@ public class AccountServiceTest {
 
 	@Autowired
 	AccountRepository accountRepository;
+	@Autowired
+	AccountService accountService;
 
 	@BeforeEach
-	void setup(){
-		var account1 = new Account("test", "one", "one@test.com", "testone", "test" );
-		var account2 = new Account("test", "two", "two@test.com", "testtwo", "test" );
+	void setup() {
+		var account1 = new Account("test", "one", "one@test.com", "testone", "test");
+		var account2 = new Account("test", "two", "two@test.com", "testtwo", "test");
 
 		accountRepository.saveAll(Flux.just(account1, account2))
 				.thenMany(accountRepository.findAll())
 				.blockLast();  // accepted in a test context
 	}
 
-	@Autowired
-	AccountService accountService;
-
 	@Test
-	void testFindAll(){
+	void testFindAll() {
 		accountService.findAll().as(StepVerifier::create)
 				.expectNextCount(2)
 				.verifyComplete();

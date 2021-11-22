@@ -48,9 +48,9 @@ import java.util.List;
  */
 public class BookstoreAuthenticationProvider implements AuthenticationProvider {
 
-  private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-  @Autowired
+	@Autowired
 	private AccountService accountService;
 
 	@Override
@@ -59,10 +59,10 @@ public class BookstoreAuthenticationProvider implements AuthenticationProvider {
 		String password = authentication.getCredentials().toString();
 
 		Account account = accountService.getAccount(username);
-		if(account == null) {
+		if (account == null) {
 			throw new BadCredentialsException("Authentication failed <username> for " + username);
 		}
-		if(!passwordEncoder.matches(password, account.getPassword())) {
+		if (!passwordEncoder.matches(password, account.getPassword())) {
 			throw new BadCredentialsException("Authentication failed <password> for " + username);
 		}
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

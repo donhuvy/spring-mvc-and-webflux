@@ -11,23 +11,25 @@ Time: 11:47
 
 <body>
 <div id="wrap">
-    <div id="header" th:replace="~{template/layout :: header}" ></div>
+    <div id="header" th:replace="~{template/layout :: header}"></div>
     <div class="center_content">
-        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}" >
+        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}">
             <h1 id="pagetitle" th:text="#{book.search.title}">SEARCH TITLE</h1>
-            <form action="#" th:action="@{/book/list}" th:object="${bookSearchCriteria}" method="GET" id="bookSearchForm">
+            <form action="#" id="bookSearchForm" method="GET" th:action="@{/book/list}"
+                  th:object="${bookSearchCriteria}">
                 <fieldset>
                     <legend th:text="#{book.searchcriteria}">SEARCH CRITERIA</legend>
                     <table>
                         <tr>
                             <td><label for="title" th:text="#{book.title}">TITLE</label></td>
-                            <td><input type="text" th:field="*{title}"/></td>
+                            <td><input th:field="*{title}" type="text"/></td>
                         </tr>
                         <tr>
                             <td><label for="category" th:text="#{book.category}">CATEGORY</label></td>
                             <td>
                                 <select th:field="*{category}">
-                                    <option th:each="c : ${categories}" th:value="${c}" th:text="${c}" th:selected="${c eq 'Spring'}">
+                                    <option th:each="c : ${categories}" th:selected="${c eq 'Spring'}" th:text="${c}"
+                                            th:value="${c}">
                                     </option>
                                 </select>
                             </td>
@@ -38,7 +40,7 @@ Time: 11:47
             </form>
             <script th:inline="javascript">
                 /*<![CDATA[*/
-                $(document).ready(function() {
+                $(document).ready(function () {
                     $('#bookSearchResults').hide();
                 });
 
@@ -47,22 +49,22 @@ Time: 11:47
                     var baseDetailUrl = /*[[@{/book/detail/}]]*/ '/book/detail';
                     var baseAddCartUrl = /*[[@{/cart/add/}]]*/ '/cart/add';
                     var addToCart = /*[[#{book.addtocart}]]*/ 'Add To Cart';
-                    for (var i = 0; i<books.length; i++) {
+                    for (var i = 0; i < books.length; i++) {
                         content += '<tr>';
-                        content += '<td><a href="'+ baseDetailUrl + books[i].id+'">'+books[i].title+'</a></td>';
-                        content += '<td>'+books[i].description+'</td>';
-                        content += '<td>'+books[i].price+'</td>';
-                        content += '<td><a href="'+ baseAddCartUrl +books[i].id+'">' + addToCart + '</a></td></tr>';
+                        content += '<td><a href="' + baseDetailUrl + books[i].id + '">' + books[i].title + '</a></td>';
+                        content += '<td>' + books[i].description + '</td>';
+                        content += '<td>' + books[i].price + '</td>';
+                        content += '<td><a href="' + baseAddCartUrl + books[i].id + '">' + addToCart + '</a></td></tr>';
                     }
                     $('#bookSearchResults tbody').html(content);
                     $('#bookSearchResults').show();
                 }
 
-                $('#bookSearchForm').submit(function(evt){
+                $('#bookSearchForm').submit(function (evt) {
                     evt.preventDefault();
                     var title = $('#title').val();
                     var category = $('#category').val();
-                    var json = { "title" : title, "category" : category};
+                    var json = {"title": title, "category": category};
 
                     $.ajax({
                         url: $('#bookSearchForm').action,
@@ -70,7 +72,9 @@ Time: 11:47
                         dataType: 'json',
                         contentType: 'application/json',
                         data: JSON.stringify(json),
-                        success: function(responseData) { renderBooks(responseData);}
+                        success: function (responseData) {
+                            renderBooks(responseData);
+                        }
                     });
                 });
                 /*]]>*/
@@ -97,11 +101,11 @@ Time: 11:47
             </table>
         </div>
 
-        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}" ></div>
+        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}"></div>
         <div class="clear"></div>
     </div> <!-- end of center_content -->
 
-    <div class="footer" id="footer" th:replace="~{template/layout :: footer}" ></div>
+    <div class="footer" id="footer" th:replace="~{template/layout :: footer}"></div>
 </div>
 </body>
 </html>

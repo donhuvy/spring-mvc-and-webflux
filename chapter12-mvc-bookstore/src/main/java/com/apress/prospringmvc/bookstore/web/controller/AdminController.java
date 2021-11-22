@@ -49,7 +49,7 @@ public class AdminController {
 	AccountRepository accountRepository;
 
 	@GetMapping("/list")
-	public String list(Model model){
+	public String list(Model model) {
 		model.addAttribute("accounts", accountRepository.findAll());
 		return "customer/list";
 	}

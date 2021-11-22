@@ -8,23 +8,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * of the JEE {@code ServletContainerInitializer} pattern. This class will be called on application startup and will
  * configure our Spring Boot Application.
  * <p/>
- * 
+ * <p>
  * It will first initializes our {@code AnnotationConfigWebApplicationContext} with the common {@link org.springframework.context.annotation.Configuration}
  * classes: {@code InfrastructureContextConfiguration} and {@code TestDataContextConfiguration} using a typical JEE
  * {@code ContextLoaderListener}.
  * <p/>
- * 
+ * <p>
  * Next it creates a {@link org.springframework.web.servlet.DispatcherServlet}, being a normal JEE Servlet which will create on its turn a child
  * {@code AnnotationConfigWebApplicationContext} configured with the Spring MVC {@code Configuration} classes
  * {@code WebMvcContextConfiguration} and {@code WebflowContextConfiguration}. This Servlet will be registered using
  * JEE's programmatical API support.
  * <p/>
- * 
+ * <p>
  * Note: the {@code OpenEntityManagerInViewFilter} is only enabled for pages served solely via Spring MVC. For pages
  * being served via WebFlow we configured WebFlow to use the JpaFlowExecutionListener.
  *
  * @author Marten Deinum
- *
  */
 @SpringBootApplication
 public class BookstoreApplication {

@@ -29,23 +29,16 @@ package com.apress.prospringmvc.bookstore.controller;
 
 import com.apress.prospringmvc.bookstore.document.Book;
 import com.apress.prospringmvc.bookstore.service.BookstoreService;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Iuliana Cosmina on 29/07/2020
@@ -79,13 +72,13 @@ public class BookDetailController {
 				.uri(
 						uriBuilder -> uriBuilder.path("/id/{id}")
 								.build(bookId)
-				 )
+				)
 				.retrieve()
 				.bodyToMono(Book.class)
 				.flux();
 
 		IReactiveDataDriverContextVariable dataDriver =
-				new ReactiveDataDriverContextVariable( bookFlux,1);
+				new ReactiveDataDriverContextVariable(bookFlux, 1);
 
 		model.addAttribute("books", dataDriver);
 

@@ -11,9 +11,8 @@ import java.util.List;
 
 /**
  * Repository for working with {@link Book} domain objects
- * 
- * @author Marten Deinum
  *
+ * @author Marten Deinum
  */
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 

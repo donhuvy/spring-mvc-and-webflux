@@ -27,18 +27,17 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore.controller;
 
-import com.apress.prospringmvc.bookstore.document.Book;
 import com.apress.prospringmvc.bookstore.service.BookstoreService;
 import com.apress.prospringmvc.bookstore.util.BookSearchCriteria;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.Collection;
 import java.util.List;
 
-import static com.apress.prospringmvc.bookstore.document.Book.Category.*;
+import static com.apress.prospringmvc.bookstore.document.Book.Category.JAVA;
+import static com.apress.prospringmvc.bookstore.document.Book.Category.SPRING;
+import static com.apress.prospringmvc.bookstore.document.Book.Category.WEB;
 
 /**
  * Created by Iuliana Cosmina on 27/07/2020
@@ -63,7 +62,7 @@ public class BookSearchController {
 	}
 
 	@GetMapping(path = "/book/search")
-	public String load(){
+	public String load() {
 		return "book/search";
 	}
 

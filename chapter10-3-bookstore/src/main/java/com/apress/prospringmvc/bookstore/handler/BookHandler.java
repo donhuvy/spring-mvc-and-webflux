@@ -46,11 +46,10 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 public class BookHandler {
 
-	private BookstoreService bookstoreService;
-
 	public HandlerFunction<ServerResponse> list;
 	public HandlerFunction<ServerResponse> random;
 	public HandlerFunction<ServerResponse> delete;
+	private BookstoreService bookstoreService;
 
 	public BookHandler(BookstoreService bookstoreService) {
 		this.bookstoreService = bookstoreService;
@@ -58,12 +57,12 @@ public class BookHandler {
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(bookstoreService.findBooks(new BookSearchCriteria()), Book.class);
 
-		random = serverRequest ->ok()
+		random = serverRequest -> ok()
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(bookstoreService.findRandomBooks(), Book.class);
 
 		delete = serverRequest -> ServerResponse.noContent()
-					.build(bookstoreService.deleteBook(serverRequest.pathVariable("isbn")));
+				.build(bookstoreService.deleteBook(serverRequest.pathVariable("isbn")));
 	}
 
 	public Mono<ServerResponse> search(ServerRequest serverRequest) {
@@ -78,6 +77,6 @@ public class BookHandler {
 		return bookMono
 				.flatMap(book -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
 						.bodyValue(Book.class))
-					.switchIfEmpty(ServerResponse.notFound().build());
+				.switchIfEmpty(ServerResponse.notFound().build());
 	}
 }

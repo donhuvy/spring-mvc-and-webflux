@@ -1,6 +1,5 @@
 package com.apress.prospringmvc.bookstore.web.controller;
 
-import com.apress.prospringmvc.bookstore.domain.Book;
 import com.apress.prospringmvc.bookstore.domain.Cart;
 import com.apress.prospringmvc.bookstore.service.BookstoreService;
 import org.springframework.stereotype.Controller;

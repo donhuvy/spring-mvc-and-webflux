@@ -65,22 +65,22 @@ public class IndexController implements ApplicationContextAware {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(path="/", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public Mono<String> index(){
+	@GetMapping(path = "/", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public Mono<String> index() {
 		return Mono.just("It works!");
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(path="/debug", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
-	public Flux<Pair<String,String>> debug(ServerWebExchange exchange) {
-		if(Objects.requireNonNull(exchange.getRequest().getHeaders().get("user-agent")).stream().anyMatch(v-> v.startsWith("curl"))){
+	@GetMapping(path = "/debug", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+	public Flux<Pair<String, String>> debug(ServerWebExchange exchange) {
+		if (Objects.requireNonNull(exchange.getRequest().getHeaders().get("user-agent")).stream().anyMatch(v -> v.startsWith("curl"))) {
 			logger.debug("Development request with id: {}", exchange.getRequest().getId());
 			ResponseCookie devCookie = ResponseCookie.from("Invoking.Environment.Cookie", "dev").maxAge(Duration.ofMinutes(5)).build();
 			exchange.getResponse().addCookie(devCookie);
 		}
-		List<Pair<String,String>> info = new ArrayList<>();
+		List<Pair<String, String>> info = new ArrayList<>();
 		Arrays.stream(ctx.getBeanDefinitionNames()).forEach(beanName ->
-			info.add(Pair.of(beanName, ctx.getBean(beanName).getClass().getName()))
+				info.add(Pair.of(beanName, ctx.getBean(beanName).getClass().getName()))
 		);
 		return Flux.fromIterable(info).zipWith(Flux.interval(Duration.ofSeconds(1))).map(Tuple2::getT1);
 	}

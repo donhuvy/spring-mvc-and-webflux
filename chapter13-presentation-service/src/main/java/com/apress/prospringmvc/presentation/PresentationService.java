@@ -39,23 +39,18 @@ import reactor.core.publisher.Flux;
 @Service
 public class PresentationService {
 
-	private static Logger logger = LoggerFactory.getLogger(PresentationService.class);
-
 	private static final String BOOK_SERVICE_URL = "http://book-service";
-
 	private static final String ACCOUNT_SERVICE_URL = "http://account-service";
-
 	private static final String TECHNEWS_SERVICE_URL = "http://technews-service";
-
 	private static final String NEWRELEASES_SERVICE_URL = "http://newreleases-service";
-
+	private static Logger logger = LoggerFactory.getLogger(PresentationService.class);
 	private WebClient.Builder webClientBuilder;
 
 	public PresentationService(WebClient.Builder webClientBuilder) {
 		this.webClientBuilder = webClientBuilder;
 	}
 
-	public Flux<Book>  randomBooks() {
+	public Flux<Book> randomBooks() {
 		return webClientBuilder.baseUrl(BOOK_SERVICE_URL).build()
 				.get().uri("/book/random")
 				.retrieve()
@@ -65,7 +60,7 @@ public class PresentationService {
 				});
 	}
 
-	public Flux<Book>  findBooks(BookSearchCriteria criteria) {
+	public Flux<Book> findBooks(BookSearchCriteria criteria) {
 		return webClientBuilder.baseUrl(BOOK_SERVICE_URL).build()
 				.post().uri("/book/search")
 				.bodyValue(criteria)

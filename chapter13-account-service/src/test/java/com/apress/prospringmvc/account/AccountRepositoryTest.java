@@ -50,9 +50,9 @@ public class AccountRepositoryTest {
 	AccountRepository accountRepository;
 
 	@BeforeEach
-	void setup(){
-		var account1 = new Account("test", "one", "one@test.com", "testone", "test" );
-		var account2 = new Account("test", "two", "two@test.com", "testtwo", "test" );
+	void setup() {
+		var account1 = new Account("test", "one", "one@test.com", "testone", "test");
+		var account2 = new Account("test", "two", "two@test.com", "testtwo", "test");
 
 		accountRepository.saveAll(Flux.just(account1, account2))
 				.thenMany(accountRepository.findAll())
@@ -60,21 +60,21 @@ public class AccountRepositoryTest {
 	}
 
 	@Test
-	void testFindAll(){
+	void testFindAll() {
 		accountRepository.findAll().as(StepVerifier::create)
 				.expectNextCount(2)
 				.verifyComplete();
 	}
 
 	@Test
-	void testFindByUsername(){
+	void testFindByUsername() {
 		accountRepository.findByUsername("testone").as(StepVerifier::create)
 				.expectNextCount(1)
 				.verifyComplete();
 	}
 
 	@Test
-	void testFindLightByUsername(){
+	void testFindLightByUsername() {
 		accountRepository.findLightByUsername("testtwo").as(StepVerifier::create)
 				.expectNextMatches(account -> account.getFirstName() == null)
 				.verifyComplete();

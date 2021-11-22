@@ -11,7 +11,7 @@ Time: 11:47
 
 <body>
 <div id="wrap">
-    <div id="header" th:replace="~{template/layout :: header}" ></div>
+    <div id="header" th:replace="~{template/layout :: header}"></div>
     <div class="center_content">
         <script th:inline="javascript">
             /*<![CDATA[*/
@@ -31,7 +31,7 @@ Time: 11:47
                             writeMessage('STAFF: ' + evt.data);
                         });
 
-                        websocket.addEventListener('open', function(evt) {
+                        websocket.addEventListener('open', function (evt) {
                             writeMessage("CONNECTED");
                         });
 
@@ -46,7 +46,7 @@ Time: 11:47
 
                 $('#disconnect')
                     .click(function () {
-                        if(typeof websocket != 'undefined') {
+                        if (typeof websocket != 'undefined') {
                             websocket.close();
                         } else {
                             alert("Not connected.");
@@ -55,7 +55,7 @@ Time: 11:47
 
                 $('#send')
                     .click(function () {
-                        if(typeof websocket != 'undefined') {
+                        if (typeof websocket != 'undefined') {
                             websocket.send($('#message').val());
                             writeMessage('USER:' + $('#message').val());
                         } else {
@@ -65,31 +65,38 @@ Time: 11:47
             });
             /*]]>*/
         </script>
-        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}" >
+        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}">
             <fieldset>
                 <legend th:text="#{chat.title}">CONTACT STAFF</legend>
                 <table>
                     <tr>
-                        <td colspan="2"><button id="connect" th:text="#{button.connect}">Connect</button></td>
+                        <td colspan="2">
+                            <button id="connect" th:text="#{button.connect}">Connect</button>
+                        </td>
                     </tr>
                     <tr>
                         <td><input id="message" value=""/></td>
-                        <td><button id="send" th:text="#{button.send}">SEND</button></td>
+                        <td>
+                            <button id="send" th:text="#{button.send}">SEND</button>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="center"><textarea readonly id="messageOutput" rows="10" cols="50"></textarea></td>
+                        <td align="center" colspan="2"><textarea cols="50" id="messageOutput" readonly
+                                                                 rows="10"></textarea></td>
                     </tr>
                     <tr>
-                        <td colspan="2"><button id="disconnect" th:text="#{button.disconnect}">Disconnect</button></td>
+                        <td colspan="2">
+                            <button id="disconnect" th:text="#{button.disconnect}">Disconnect</button>
+                        </td>
                     </tr>
                 </table>
             </fieldset>
         </div>
-        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}" ></div>
+        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}"></div>
         <div class="clear"></div>
     </div> <!-- end of center_content -->
 
-    <div class="footer" id="footer" th:replace="~{template/layout :: footer}" ></div>
+    <div class="footer" id="footer" th:replace="~{template/layout :: footer}"></div>
 </div>
 </body>
 </html>

@@ -47,8 +47,11 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 public class AccountHandler {
 
-	private final AccountService accountService;
 	public final HandlerFunction<ServerResponse> delete;
+	public final HandlerFunction<ServerResponse> main = serverRequest -> ok()
+			.contentType(MediaType.TEXT_HTML)
+			.bodyValue("Account service up and running!");
+	private final AccountService accountService;
 
 	public AccountHandler(AccountService accountService) {
 		this.accountService = accountService;
@@ -56,29 +59,25 @@ public class AccountHandler {
 				.build(accountService.deleteByUsername(serverRequest.pathVariable("username")));
 	}
 
-	public final HandlerFunction<ServerResponse> main = serverRequest -> ok()
-			.contentType(MediaType.TEXT_HTML)
-			.bodyValue("Account service up and running!");
-
-	public Mono<ServerResponse> list(ServerRequest serverRequest){
+	public Mono<ServerResponse> list(ServerRequest serverRequest) {
 		return ok()
 				.contentType(MediaType.TEXT_EVENT_STREAM)
 				.body(accountService.findAll(), Account.class);
 	}
 
-	public Mono<ServerResponse> add(ServerRequest serverRequest){
+	public Mono<ServerResponse> add(ServerRequest serverRequest) {
 		return serverRequest.bodyToMono(Account.class)
-		.flatMap(accountService::create)
+				.flatMap(accountService::create)
 				.flatMap(account -> ServerResponse.created(URI.create("/account/" + account.getUsername()))
 						.contentType(MediaType.APPLICATION_JSON).bodyValue(account))
 				.onErrorResume(error -> ServerResponse.badRequest().bodyValue(error));
 	}
 
 	public Mono<ServerResponse> update(ServerRequest serverRequest) {
-	return	serverRequest.bodyToMono(Account.class)
+		return serverRequest.bodyToMono(Account.class)
 				.flatMap(account -> accountService.update(serverRequest.pathVariable("username"), account))
 				.then(noContent().build())
-			.onErrorResume(error -> ServerResponse.badRequest().bodyValue(error));
+				.onErrorResume(error -> ServerResponse.badRequest().bodyValue(error));
 	}
 
 	public Mono<ServerResponse> findOne(ServerRequest request) {

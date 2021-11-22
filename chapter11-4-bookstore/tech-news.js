@@ -23,8 +23,8 @@ const server = http.createServer((req, res) => {
     res.flushHeaders();
 
     // Sends a SSE every 2 seconds on a single connection.
-    setInterval(function() {
-        res.write('data:'+news[Math.floor(Math.random() * news.length)] + '\n\n');
+    setInterval(function () {
+        res.write('data:' + news[Math.floor(Math.random() * news.length)] + '\n\n');
     }, 2000);
 });
 

@@ -1,6 +1,5 @@
 package com.apress.prospringmvc.bookstore.web.controller;
 
-import com.apress.prospringmvc.bookstore.domain.Account;
 import com.apress.prospringmvc.bookstore.service.AccountService;
 import com.apress.prospringmvc.bookstore.service.AuthenticationException;
 import org.springframework.stereotype.Controller;

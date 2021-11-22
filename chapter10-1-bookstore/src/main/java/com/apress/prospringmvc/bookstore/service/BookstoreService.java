@@ -1,6 +1,9 @@
 package com.apress.prospringmvc.bookstore.service;
 
-import com.apress.prospringmvc.bookstore.document.*;
+import com.apress.prospringmvc.bookstore.document.Account;
+import com.apress.prospringmvc.bookstore.document.Book;
+import com.apress.prospringmvc.bookstore.document.Cart;
+import com.apress.prospringmvc.bookstore.document.Order;
 import com.apress.prospringmvc.bookstore.util.BookSearchCriteria;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

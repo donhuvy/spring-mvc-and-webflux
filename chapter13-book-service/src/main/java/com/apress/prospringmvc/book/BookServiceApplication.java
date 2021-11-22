@@ -28,17 +28,19 @@ SOFTWARE.
 package com.apress.prospringmvc.book;
 
 import com.apress.prospringmvc.book.handler.BookHandler;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
 
-import org.springframework.web.reactive.function.server.*;
-
-import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
 
 
 /**
@@ -57,7 +59,7 @@ public class BookServiceApplication {
 	}
 
 	@Bean
-	public RouterFunction<ServerResponse> router(BookHandler handler){
+	public RouterFunction<ServerResponse> router(BookHandler handler) {
 		return RouterFunctions
 				.route(GET("/"), handler.main) // curl  http://localhost:6001
 				.andRoute(GET("/index.htm"), handler.main)

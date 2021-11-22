@@ -43,15 +43,15 @@ public class BookSearchCriteria {
 		this.title = title;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public String getCategory() {
 		return this.category;
 	}
 
-	public boolean isEmpty(){
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public boolean isEmpty() {
 		return title == null && category == null;
 	}
 

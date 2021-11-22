@@ -58,17 +58,18 @@ public class ConversionServiceTest {
 		private Date dob;
 		private String username;
 
-		public void setUsername(String username) {
-			this.username = username;
-		}
-
 		public String getUsername() {
 			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
 		}
 
 		public Date getDob() {
 			return dob;
 		}
+
 		@DateTimeFormat(pattern = "dd-MM-yyyy")
 		public void setDob(Date dob) {
 			this.dob = dob;

@@ -12,28 +12,26 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * 
  * @author Marten Deinum
-
  */
 @Controller
 @RequestMapping("/cart")
 public class CartController {
 
-    private final Logger logger = LoggerFactory.getLogger(CartController.class);
+	private final Logger logger = LoggerFactory.getLogger(CartController.class);
 
-    @Autowired
-    private Cart cart;
+	@Autowired
+	private Cart cart;
 
-    @Autowired
-    private BookstoreService bookstoreService;
+	@Autowired
+	private BookstoreService bookstoreService;
 
-    @GetMapping("/add/{bookId}")
-    public String addToCart(@PathVariable("bookId") long bookId, @RequestHeader("referer") String referer) {
-        var book = this.bookstoreService.findBook(bookId);
-        this.cart.addBook(book);
-        this.logger.info("Cart: {}", this.cart);
-        return "redirect:" + referer;
-    }
+	@GetMapping("/add/{bookId}")
+	public String addToCart(@PathVariable("bookId") long bookId, @RequestHeader("referer") String referer) {
+		var book = this.bookstoreService.findBook(bookId);
+		this.cart.addBook(book);
+		this.logger.info("Cart: {}", this.cart);
+		return "redirect:" + referer;
+	}
 
 }

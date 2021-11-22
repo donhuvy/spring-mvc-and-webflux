@@ -8,42 +8,39 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * 
  * @author Marten Deinum
-
- *
  */
 @Entity
 @SuppressWarnings("serial")
 public class Category implements Serializable {
 
-    @Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Basic(optional = false)
-    private String name;
+	@Basic(optional = false)
+	private String name;
 
-    public Category() {
-    }
+	public Category() {
+	}
 
-    public Category(String name) {
-        this.name = name;
-    }
+	public Category(String name) {
+		this.name = name;
+	}
 
-    public Long getId() {
-        return this.id;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 }

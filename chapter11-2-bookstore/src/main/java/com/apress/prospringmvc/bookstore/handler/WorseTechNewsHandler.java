@@ -43,6 +43,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Iuliana Cosmina on 15/08/2020
+ *
  * @description: This is yet another bad WebSocket handler.It is supposed to store references to each stream that sends
  * messages to the client, but by providing the stream ourselves, Spring is not involved anymore, so no subscriber is
  * called to consume messages by sending them to the client.

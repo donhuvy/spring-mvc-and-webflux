@@ -36,7 +36,7 @@ import reactor.core.publisher.Mono;
  * Created by Iuliana Cosmina on 27/07/2020
  */
 @Service
-public class AccountServiceImpl implements  AccountService {
+public class AccountServiceImpl implements AccountService {
 
 	private final AccountRepository accountRepository;
 

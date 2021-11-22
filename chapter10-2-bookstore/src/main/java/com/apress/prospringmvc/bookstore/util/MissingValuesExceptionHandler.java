@@ -49,7 +49,7 @@ public class MissingValuesExceptionHandler implements WebExceptionHandler {
 		if (ex instanceof MissingValueException) {
 			exchange.getResponse().setStatusCode(HttpStatus.BAD_REQUEST);
 			exchange.getResponse().getHeaders().add("Content-Type", "application/json");
-			final String message = " {\"missing_value_for\": \""+ ((MissingValueException)ex).getFieldNames() +"\"}";
+			final String message = " {\"missing_value_for\": \"" + ((MissingValueException) ex).getFieldNames() + "\"}";
 			buffer = exchange.getResponse().bufferFactory().wrap(message.getBytes());
 		} else {
 			exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);

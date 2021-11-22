@@ -29,14 +29,14 @@ package com.apress.prospringmvc.bookstore.web.view;
 
 import com.apress.prospringmvc.bookstore.domain.Order;
 import com.apress.prospringmvc.bookstore.domain.OrderDetail;
-import org.springframework.web.servlet.view.document.AbstractPdfView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import com.lowagie.text.Document;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfWriter;
+import org.springframework.web.servlet.view.document.AbstractPdfView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**

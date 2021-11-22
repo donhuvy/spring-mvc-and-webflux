@@ -46,10 +46,10 @@ public class BookstoreWebTest {
 	private static Logger logger = LoggerFactory.getLogger(BookstoreWebTest.class);
 
 	@Autowired
-	private  WebTestClient testClient;
+	private WebTestClient testClient;
 
 	@Test
-	public void shouldReturnBook(){
+	public void shouldReturnBook() {
 		testClient.get()
 				.uri(uriBuilder -> uriBuilder.path("/book/isbn/{isbn}").build("9781484237779"))
 				.accept(MediaType.APPLICATION_JSON)
@@ -62,18 +62,18 @@ public class BookstoreWebTest {
 	}
 
 	@Test
-	public void shouldReturnTwoBooks(){
+	public void shouldReturnTwoBooks() {
 		BookSearchCriteria criteria = new BookSearchCriteria();
 		criteria.setCategory(Book.Category.JAVA);
 
 		testClient.post()
-			.uri("/book/search")
-			.accept(MediaType.APPLICATION_JSON)
-			.body(Mono.just(criteria), BookSearchCriteria.class)
-			.exchange()
-			.expectStatus().isOk()
-			.expectHeader().contentType(MediaType.APPLICATION_JSON)
-			.expectBodyList(Book.class)
+				.uri("/book/search")
+				.accept(MediaType.APPLICATION_JSON)
+				.body(Mono.just(criteria), BookSearchCriteria.class)
+				.exchange()
+				.expectStatus().isOk()
+				.expectHeader().contentType(MediaType.APPLICATION_JSON)
+				.expectBodyList(Book.class)
 				.hasSize(2);
 	/*.consumeWith(
 				result -> {

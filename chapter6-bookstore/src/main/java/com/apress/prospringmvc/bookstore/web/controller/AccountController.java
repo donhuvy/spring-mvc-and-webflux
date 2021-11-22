@@ -8,55 +8,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
 /**
- *  
  * @author Marten Deinum
-
- *
  */
 @Controller
 @RequestMapping("/customer/account")
 @SessionAttributes(types = Account.class)
 public class AccountController {
 
-    @Autowired
-    private AccountRepository accountRepository;
+	@Autowired
+	private AccountRepository accountRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 
-    @ModelAttribute("countries")
-    public Map<String, String> countries(Locale currentLocale) {
-        var countries = new TreeMap<String, String>();
-        for (var locale : Locale.getAvailableLocales()) {
-            countries.put(locale.getCountry(), locale.getDisplayCountry(currentLocale));
-        }
-        return countries;
-    }
+	@ModelAttribute("countries")
+	public Map<String, String> countries(Locale currentLocale) {
+		var countries = new TreeMap<String, String>();
+		for (var locale : Locale.getAvailableLocales()) {
+			countries.put(locale.getCountry(), locale.getDisplayCountry(currentLocale));
+		}
+		return countries;
+	}
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.setDisallowedFields("id");
-        binder.setRequiredFields("username", "password", "emailAddress");
-    }
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.setDisallowedFields("id");
+		binder.setRequiredFields("username", "password", "emailAddress");
+	}
 
-    @GetMapping
-    public String index(Model model,
-            @SessionAttribute(value = LoginController.ACCOUNT_ATTRIBUTE, exposeAsModelAttribute = true) Account account) {
-        model.addAttribute("orders", this.orderRepository.findByAccount(account));
-        return "customer/account";
-    }
+	@GetMapping
+	public String index(Model model,
+											@SessionAttribute(value = LoginController.ACCOUNT_ATTRIBUTE, exposeAsModelAttribute = true) Account account) {
+		model.addAttribute("orders", this.orderRepository.findByAccount(account));
+		return "customer/account";
+	}
 
-    @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
-    public String update(@ModelAttribute Account account) {
-        this.accountRepository.save(account);
-        return "redirect:/customer/account";
-    }
+	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
+	public String update(@ModelAttribute Account account) {
+		this.accountRepository.save(account);
+		return "redirect:/customer/account";
+	}
 
 }

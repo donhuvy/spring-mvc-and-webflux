@@ -33,17 +33,19 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.server.*;
+import org.springframework.web.reactive.function.server.HandlerFunction;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
-import static org.springframework.web.reactive.function.server.ServerResponse.*;
 /**
  * Created by Iuliana Cosmina on 29/08/2020
  */
@@ -62,7 +64,7 @@ public class NewReleasesApplication {
 	}
 
 	@Bean
-	public RouterFunction<ServerResponse> router(NewReleasesHandler handler){
+	public RouterFunction<ServerResponse> router(NewReleasesHandler handler) {
 		return RouterFunctions
 				.route(GET("/"), handler.main) // curl  http://localhost:5000
 				.andRoute(GET("/index.htm"), handler.main)
@@ -72,29 +74,25 @@ public class NewReleasesApplication {
 
 @Component
 class NewReleasesHandler {
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
-
 	public static final List<Book> NEW_BOOKS = List.of(
-			new Book("Spring Boot 3 Recipes", 2022,"Marten Deinum"),
-			new Book("Spring WebFlux for Dummies",  2021,"Iuliana Cosmina"),
-			new Book("Reactive Java Recipes",  2022,"Iuliana Cosmina"),
-			new Book("JavaScript for the Backend Developer",  2020,"James Crook"),
-			new Book("Pro Spring 6", 2022,"Iuliana Cosmina"),
-			new Book("Reactive Spring",  2020,"Josh Long"),
-			new Book("Spring MVC and WebFlux",  2020,"Marten Deinum & Iuliana Cosmina")
+			new Book("Spring Boot 3 Recipes", 2022, "Marten Deinum"),
+			new Book("Spring WebFlux for Dummies", 2021, "Iuliana Cosmina"),
+			new Book("Reactive Java Recipes", 2022, "Iuliana Cosmina"),
+			new Book("JavaScript for the Backend Developer", 2020, "James Crook"),
+			new Book("Pro Spring 6", 2022, "Iuliana Cosmina"),
+			new Book("Reactive Spring", 2020, "Josh Long"),
+			new Book("Spring MVC and WebFlux", 2020, "Marten Deinum & Iuliana Cosmina")
 	);
+	private static final Random RANDOM = new Random(System.currentTimeMillis());
+	final HandlerFunction<ServerResponse> main = serverRequest -> ok()
+			.contentType(MediaType.TEXT_HTML)
+			.bodyValue("New Book Releases service up and running!");
+	final HandlerFunction<ServerResponse> data = serverRequest -> ok().contentType(MediaType.TEXT_EVENT_STREAM)
+			.body(Flux.interval(Duration.ofSeconds(5)).map(delay -> randomRelease()), Book.class);
 
 	public static Book randomRelease() {
 		return NEW_BOOKS.get(RANDOM.nextInt(NEW_BOOKS.size()));
 	}
-
-
-	final HandlerFunction<ServerResponse> main = serverRequest -> ok()
-				.contentType(MediaType.TEXT_HTML)
-				.bodyValue("New Book Releases service up and running!");
-
-		final HandlerFunction<ServerResponse> data = serverRequest -> ok().contentType(MediaType.TEXT_EVENT_STREAM)
-				.body(Flux.interval(Duration.ofSeconds(5)).map(delay -> randomRelease()), Book.class);
 }
 
 

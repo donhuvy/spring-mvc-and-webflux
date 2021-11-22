@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 /**
@@ -42,9 +41,13 @@ import reactor.test.StepVerifier;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class ReactiveServiceTest {
 
-	private static final  Logger logger = LoggerFactory.getLogger(ReactiveServiceTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(ReactiveServiceTest.class);
 	@Autowired
 	BookService bookService;
+
+	static Flux<String> addLogging(Flux<String> flux) {
+		return flux.doOnNext(it -> System.out.printf("Received " + it)).doOnError(e -> e.printStackTrace());
+	}
 
 	@Test
 	void shouldReadAllPersons() {
@@ -55,7 +58,7 @@ public class ReactiveServiceTest {
 	}
 
 	@Test
-	void shouldReturnOne(){
+	void shouldReturnOne() {
 		Book book = new Book("Spring Boot 2 Recipes", "Marten Deinum", "9781484227893", DataInitializer.Category.SPRING);
 		bookService.findByIsbn("9781484227893").as(StepVerifier::create)
 				.expectSubscription()
@@ -64,16 +67,12 @@ public class ReactiveServiceTest {
 	}
 
 	@Test
-	void bogus(){
-		Flux<String> items =  Flux.just("a", "b", "c");
+	void bogus() {
+		Flux<String> items = Flux.just("a", "b", "c");
 		items.transform(s -> addLogging(s)).subscribe();
 		//addLogging(items);
 		//items.doOnNext(it -> System.out.printf("Received "+ it)). doOnError(e -> e.printStackTrace()).subscribe();
 		items.subscribe();
-	}
-
-	static Flux<String>  addLogging(Flux<String> flux) {
-		return flux.doOnNext(it -> System.out.printf("Received "+ it)). doOnError(e -> e.printStackTrace());
 	}
 
 }

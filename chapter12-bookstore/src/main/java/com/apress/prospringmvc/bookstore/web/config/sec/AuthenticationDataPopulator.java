@@ -43,6 +43,7 @@ import java.util.List;
 
 /**
  * This class is needed to create accounts for the users in the AuthenticationManager in-memory database.
+ *
  * @author Iuliana Cosmina
  * @date 07/06/2020
  */
@@ -60,7 +61,7 @@ public class AuthenticationDataPopulator {
 	}
 
 	@PostConstruct
-	private void init(){
+	private void init() {
 		logger.info(" -->> Starting authentication data initialization...");
 		roleRepository.saveAll(List.of(new Role("ROLE_USER"), new Role("ROLE_ADMIN")));
 

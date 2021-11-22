@@ -69,9 +69,9 @@ public class BookRepositoryTest {
 
 	@Test
 	void testBooksIds() {
-		 bookRepository.findAllLight().as(StepVerifier::create)
-				 .expectNextCount(2)
-				 .verifyComplete();
+		bookRepository.findAllLight().as(StepVerifier::create)
+				.expectNextCount(2)
+				.verifyComplete();
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class BookRepositoryTest {
 	}
 
 	@Test
-	void testFindRandom(){
+	void testFindRandom() {
 		PageRequest request = PageRequest.of(0, 1);
 		bookRepository.findRandom(request)
 				.log()
@@ -92,8 +92,8 @@ public class BookRepositoryTest {
 	}
 
 	@Test
-	void testQuery(){
-		BookSearchCriteria bookSearchCriteria  = new BookSearchCriteria();
+	void testQuery() {
+		BookSearchCriteria bookSearchCriteria = new BookSearchCriteria();
 		bookSearchCriteria.setCategory("Dim");
 		Query query = new Query();
 		if (bookSearchCriteria.getTitle() != null) {

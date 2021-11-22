@@ -27,8 +27,11 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore.repository;
 
-import com.apress.prospringmvc.bookstore.controller.BookSearchController;
-import com.apress.prospringmvc.bookstore.document.*;
+import com.apress.prospringmvc.bookstore.document.Account;
+import com.apress.prospringmvc.bookstore.document.Address;
+import com.apress.prospringmvc.bookstore.document.Book;
+import com.apress.prospringmvc.bookstore.document.Order;
+import com.apress.prospringmvc.bookstore.document.OrderDetail;
 import com.apress.prospringmvc.bookstore.util.BookSearchCriteria;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,8 +57,10 @@ import java.util.List;
 public class RepositoryTest {
 	private final Logger logger = LoggerFactory.getLogger(RepositoryTest.class);
 
-	@Autowired BookRepository bookRepository;
-	@Autowired AccountRepository accountRepository;
+	@Autowired
+	BookRepository bookRepository;
+	@Autowired
+	AccountRepository accountRepository;
 
 	@BeforeEach
 	public void setup() {
@@ -98,9 +103,9 @@ public class RepositoryTest {
 
 	@Test
 	void testBooksIds() {
-		 bookRepository.findAllLight().as(StepVerifier::create)
-				 .expectNextCount(2)
-				 .verifyComplete();
+		bookRepository.findAllLight().as(StepVerifier::create)
+				.expectNextCount(2)
+				.verifyComplete();
 	}
 
 	@Test
@@ -111,7 +116,7 @@ public class RepositoryTest {
 	}
 
 	@Test
-	void testFindRandom(){
+	void testFindRandom() {
 		PageRequest request = PageRequest.of(0, 1);
 		bookRepository.findRandom(request)
 				.log()
@@ -121,8 +126,8 @@ public class RepositoryTest {
 	}
 
 	@Test
-	void testQuery(){
-		BookSearchCriteria bookSearchCriteria  = new BookSearchCriteria();
+	void testQuery() {
+		BookSearchCriteria bookSearchCriteria = new BookSearchCriteria();
 		bookSearchCriteria.setCategory("Dim");
 		Query query = new Query();
 		if (bookSearchCriteria.getTitle() != null) {
@@ -140,7 +145,7 @@ public class RepositoryTest {
 	}
 
 	@Test
-	void testFindByUsername(){
+	void testFindByUsername() {
 		accountRepository.findByUsername("test")
 				.log()
 				.as(StepVerifier::create)
@@ -150,7 +155,7 @@ public class RepositoryTest {
 	}
 
 	@Test
-	void testFindLightByUsername(){
+	void testFindLightByUsername() {
 		accountRepository.findLightByUsername("test")
 				.as(StepVerifier::create)
 				.expectNextMatches(acc -> acc.getOrders() == null)
@@ -158,7 +163,7 @@ public class RepositoryTest {
 	}
 
 	@Test
-	void testOrdersByAccount(){
+	void testOrdersByAccount() {
 		accountRepository.findByUsername("test")
 				.log()
 				.as(StepVerifier::create)

@@ -12,34 +12,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class MapBasedTransactionRepositoryTests {
 
-    private final MapBasedTransactionRepository repository = new MapBasedTransactionRepository();
+	private final MapBasedTransactionRepository repository = new MapBasedTransactionRepository();
 
-    @Test
-    public void store() {
-        Account src = new Account("src");
-        Account dst = new Account("dst");
-        BigDecimal amount = BigDecimal.TEN;
-        MoneyTransferTransaction transaction = new MoneyTransferTransaction(src, dst, amount);
+	@Test
+	public void store() {
+		Account src = new Account("src");
+		Account dst = new Account("dst");
+		BigDecimal amount = BigDecimal.TEN;
+		MoneyTransferTransaction transaction = new MoneyTransferTransaction(src, dst, amount);
 
-        this.repository.store(transaction);
+		this.repository.store(transaction);
 
-        Iterable<Transaction> srcTxs = this.repository.find(src);
-        Iterable<Transaction> dstTxs = this.repository.find(dst);
+		Iterable<Transaction> srcTxs = this.repository.find(src);
+		Iterable<Transaction> dstTxs = this.repository.find(dst);
 
-        assertThat(srcTxs)
-                .hasSize(1)
-                .containsOnly(transaction);
+		assertThat(srcTxs)
+				.hasSize(1)
+				.containsOnly(transaction);
 
-        assertThat(dstTxs)
-                .hasSize(1)
-                .containsOnly(transaction);
+		assertThat(dstTxs)
+				.hasSize(1)
+				.containsOnly(transaction);
 
-    }
+	}
 
-    @Test
-    public void findNonExisting() {
-        Iterable<Transaction> transactions = this.repository.find(new Account("foobar"));
-        assertThat(transactions).isEmpty();
-    }
+	@Test
+	public void findNonExisting() {
+		Iterable<Transaction> transactions = this.repository.find(new Account("foobar"));
+		assertThat(transactions).isEmpty();
+	}
 
 }

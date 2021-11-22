@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * @date 07/06/2020
  */
 @Controller
-public class IndexController  implements ApplicationContextAware {
+public class IndexController implements ApplicationContextAware {
 
 	private ApplicationContext ctx;
 
@@ -52,7 +52,7 @@ public class IndexController  implements ApplicationContextAware {
 	}
 
 	@GetMapping("/index.htm")
-	public String populate(Model model){
+	public String populate(Model model) {
 		model.addAttribute("beans", Arrays.stream(ctx.getBeanDefinitionNames()).sorted().collect(Collectors.toList()));
 		return "index";
 	}

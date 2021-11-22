@@ -27,22 +27,15 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore;
 
-import org.junit.FixMethodOrder;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.runners.MethodSorters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.FluxExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.test.StepVerifier;
-import static org.hamcrest.CoreMatchers.*;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -56,7 +49,7 @@ public class BookstoreAppTest {
 	private WebTestClient client;
 
 	@Test
-	public void shouldReturnABook(){
+	public void shouldReturnABook() {
 		client.get().uri("/books/{isbn}", "9781484227893")
 				.exchange()
 				.expectStatus().isOk()

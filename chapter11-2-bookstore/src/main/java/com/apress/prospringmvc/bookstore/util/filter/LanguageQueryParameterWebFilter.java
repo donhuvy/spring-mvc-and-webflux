@@ -100,16 +100,16 @@ public class LanguageQueryParameterWebFilter implements WebFilter {
 	}
 
 	private void setLocaleToCookie(String lang, ServerWebExchange exchange) {
-		MultiValueMap<String, HttpCookie> cookies =  exchange.getRequest().getCookies();
+		MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
 		HttpCookie langCookie = cookies.getFirst(LOCALE_REQUEST_ATTRIBUTE_NAME);
-		if(langCookie == null || !lang.equals(langCookie.getValue())) {
+		if (langCookie == null || !lang.equals(langCookie.getValue())) {
 			ResponseCookie cookie = ResponseCookie.from(LOCALE_REQUEST_ATTRIBUTE_NAME, lang).maxAge(Duration.ofMinutes(5)).build();
 			exchange.getResponse().addCookie(cookie);
 		}
 	}
 
-	private ServerWebExchange getLocaleFromCookie(final ServerWebExchange exchange){
-		MultiValueMap<String, HttpCookie> cookies =  exchange.getRequest().getCookies();
+	private ServerWebExchange getLocaleFromCookie(final ServerWebExchange exchange) {
+		MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
 		HttpCookie langCookie = cookies.getFirst(LOCALE_REQUEST_ATTRIBUTE_NAME);
 		String langValue = langCookie != null ? langCookie.getValue() : Locale.getDefault().getDisplayLanguage();
 

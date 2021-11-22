@@ -11,33 +11,31 @@ import java.util.Locale;
 
 /**
  * @author Marten Deinum
-
- *
  */
 public class DateFormatter implements Formatter<Date> {
 
-    private String format;
+	private String format;
 
-    @Override
-    public String print(Date object, Locale locale) {
-        return getDateFormat(locale).format(object);
-    }
+	@Override
+	public String print(Date object, Locale locale) {
+		return getDateFormat(locale).format(object);
+	}
 
-    @Override
-    public Date parse(String text, Locale locale) throws ParseException {
-        return getDateFormat(locale).parse(text);
-    }
+	@Override
+	public Date parse(String text, Locale locale) throws ParseException {
+		return getDateFormat(locale).parse(text);
+	}
 
-    private DateFormat getDateFormat(Locale locale) {
-        if (StringUtils.hasText(this.format)) {
-            return new SimpleDateFormat(this.format, locale);
-        } else {
-            return SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, locale);
-        }
-    }
+	private DateFormat getDateFormat(Locale locale) {
+		if (StringUtils.hasText(this.format)) {
+			return new SimpleDateFormat(this.format, locale);
+		} else {
+			return SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, locale);
+		}
+	}
 
-    public void setFormat(String format) {
-        this.format = format;
-    }
+	public void setFormat(String format) {
+		this.format = format;
+	}
 
 }

@@ -37,7 +37,7 @@ import reactor.core.publisher.Mono;
  * Created by Iuliana Cosmina on 27/07/2020
  */
 @Service
-public class AccountServiceImpl implements  AccountService {
+public class AccountServiceImpl implements AccountService {
 
 	private final AccountRepository accountRepository;
 
@@ -64,15 +64,15 @@ public class AccountServiceImpl implements  AccountService {
 	public Mono<Void> update(String username, Account account) {
 		return accountRepository.findByUsername(username).doOnNext(
 				original ->
-						{
-									original.setAddress(account.getAddress());
-									original.setFirstName(account.getFirstName());
-									original.setLastName(account.getLastName());
-									// this op should be enabled only for admin users
-									//original.setUsername(account.getUsername());
-									original.setPassword(account.getPassword());
-									original.setEmailAddress(account.getEmailAddress());
-						}
+				{
+					original.setAddress(account.getAddress());
+					original.setFirstName(account.getFirstName());
+					original.setLastName(account.getLastName());
+					// this op should be enabled only for admin users
+					//original.setUsername(account.getUsername());
+					original.setPassword(account.getPassword());
+					original.setEmailAddress(account.getEmailAddress());
+				}
 		).then(Mono.empty());
 	}
 

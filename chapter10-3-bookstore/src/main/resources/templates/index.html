@@ -11,31 +11,37 @@ Time: 11:47
 
 <body>
 <div id="wrap">
-    <div id="header" th:replace="~{template/layout :: header}" ></div>
+    <div id="header" th:replace="~{template/layout :: header}"></div>
     <div class="center_content">
-        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}" >
+        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}">
             <p>Welcome to the Book Store(in debug mode)</p>
-            <script type="text/javascript" th:inline="javascript">
+            <script th:inline="javascript" type="text/javascript">
                 /*<![CDATA[*/
                 var renderBeans = {
-                    source: new EventSource([[@{|/beans|}]]) ,
-                    start: function () {
-                         this.source.addEventListener("message", function (event) {
-                            console.log(event);
-                            $("#beans").append('<li>'+ event.data +'</li>')
-                        });
-                        this.source.onerror = function () {
-                            this.source.close();
-                        };
-                    },
-                    stop: function() {
+                    source: new EventSource([[@{ | /beans|}]]) ,
+                        start
+                :
+
+                function () {
+                    this.source.addEventListener("message", function (event) {
+                        console.log(event);
+                        $("#beans").append('<li>' + event.data + '</li>')
+                    });
+                    this.source.onerror = function () {
                         this.source.close();
-                    }
-                };
-                $( window ).on( "load", function() {
+                    };
+                }
+
+                ,
+                stop: function () {
+                    this.source.close();
+                }
+                }
+                ;
+                $(window).on("load", function () {
                     renderBeans.start();
                 });
-                $( window ).on( "onbeforeunload", function() {
+                $(window).on("onbeforeunload", function () {
                     renderBeans.stop();
                 });
                 /*]]>*/
@@ -45,11 +51,11 @@ Time: 11:47
                 </ul>
             </div>
         </div>
-        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}" ></div>
+        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}"></div>
         <div class="clear"></div>
     </div> <!-- end of center_content -->
 
-    <div class="footer" id="footer" th:replace="~{template/layout :: footer}" ></div>
+    <div class="footer" id="footer" th:replace="~{template/layout :: footer}"></div>
 </div>
 </body>
 </html>

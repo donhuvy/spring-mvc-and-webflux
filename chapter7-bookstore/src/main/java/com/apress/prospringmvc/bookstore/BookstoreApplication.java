@@ -1,4 +1,3 @@
-
 package com.apress.prospringmvc.bookstore;
 
 import org.springframework.boot.SpringApplication;

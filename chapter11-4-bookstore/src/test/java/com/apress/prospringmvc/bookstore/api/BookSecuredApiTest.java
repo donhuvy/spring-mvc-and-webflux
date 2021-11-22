@@ -41,7 +41,9 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Created by Iuliana Cosmina on 31/07/2020
@@ -55,7 +57,7 @@ public class BookSecuredApiTest {
 
 	@WithMockUser(roles = "USER")
 	@Test
-	void shouldFindByIsbn(){
+	void shouldFindByIsbn() {
 		testClient.get()
 				.uri(uriBuilder -> uriBuilder.path("/book/by/{isbn}").build("9781484230042"))
 				.accept(MediaType.APPLICATION_JSON)
@@ -107,7 +109,7 @@ public class BookSecuredApiTest {
 
 	@WithMockUser(roles = "ADMIN")
 	@Test
-	void shouldDeleteByIsbn(){
+	void shouldDeleteByIsbn() {
 		testClient.delete()
 				.uri(uriBuilder -> uriBuilder.path("/book/delete/{isbn}").build("9781484230042"))
 				.accept(MediaType.APPLICATION_JSON)
@@ -116,7 +118,7 @@ public class BookSecuredApiTest {
 	}
 
 	@Test
-	public void shouldReturnTwoBooks(){
+	public void shouldReturnTwoBooks() {
 		BookSearchCriteria criteria = new BookSearchCriteria();
 		criteria.setCategory(Book.Category.JAVA);
 
@@ -132,10 +134,10 @@ public class BookSecuredApiTest {
 	}
 
 	@Test
-	void test (){
-		String[] in = {"x-service","y-mvc-bookstore","x-z-bookstore"};
+	void test() {
+		String[] in = {"x-service", "y-mvc-bookstore", "x-z-bookstore"};
 		for (String it : in) {
-			if(
+			if (
 					(it.endsWith("service") || it.endsWith("bookstore")) && !(it.contains("mvc"))
 			) {
 				System.out.println("add boot: " + it);

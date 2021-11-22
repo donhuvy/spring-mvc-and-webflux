@@ -52,7 +52,7 @@ import java.util.stream.Stream;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-	private final Map<String,String> filesMap = new HashMap<>();
+	private final Map<String, String> filesMap = new HashMap<>();
 
 	@Override
 	public void store(MultipartFile file) {

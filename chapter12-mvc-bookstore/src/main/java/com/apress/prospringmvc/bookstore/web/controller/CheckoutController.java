@@ -1,11 +1,11 @@
 package com.apress.prospringmvc.bookstore.web.controller;
 
-import java.security.Principal;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
-
+import com.apress.prospringmvc.bookstore.domain.Account;
+import com.apress.prospringmvc.bookstore.domain.Cart;
+import com.apress.prospringmvc.bookstore.domain.Order;
 import com.apress.prospringmvc.bookstore.repository.AccountRepository;
+import com.apress.prospringmvc.bookstore.service.BookstoreService;
+import com.apress.prospringmvc.bookstore.validation.OrderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +15,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.apress.prospringmvc.bookstore.domain.Account;
-import com.apress.prospringmvc.bookstore.domain.Cart;
-import com.apress.prospringmvc.bookstore.domain.Order;
-import com.apress.prospringmvc.bookstore.service.BookstoreService;
-import com.apress.prospringmvc.bookstore.validation.OrderValidator;
+import java.security.Principal;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Marten Deinum

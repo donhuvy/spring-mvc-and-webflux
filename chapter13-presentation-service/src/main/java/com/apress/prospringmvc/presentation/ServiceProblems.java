@@ -33,13 +33,13 @@ package com.apress.prospringmvc.presentation;
 @SuppressWarnings("serial")
 public class ServiceProblems {
 
-	public static class ServiceDownException extends  RuntimeException {
+	public static class ServiceDownException extends RuntimeException {
 		public ServiceDownException(String message) {
 			super(message);
 		}
 	}
 
-	public static class ServiceDeniedException extends  RuntimeException {
+	public static class ServiceDeniedException extends RuntimeException {
 		public ServiceDeniedException(String message) {
 			super(message);
 		}

@@ -76,7 +76,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Flux<Book> findBooks(BookSearchCriteria bookSearchCriteria) {
-		if(bookSearchCriteria.isEmpty()) {
+		if (bookSearchCriteria.isEmpty()) {
 			return Flux.empty();
 		}
 		Query query = new Query();

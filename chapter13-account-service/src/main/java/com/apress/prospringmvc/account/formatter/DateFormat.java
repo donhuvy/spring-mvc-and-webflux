@@ -7,13 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * @author Marten Deinum
-
- *
  */
-@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DateFormat {
 
-    String format() default "";
+	String format() default "";
 
 }

@@ -30,7 +30,6 @@ package com.apress.prospringmvc.bookstore.controller;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,7 +60,7 @@ public class IndexController implements ApplicationContextAware {
 		List<String> beans = Arrays.stream(ctx.getBeanDefinitionNames()).sorted().collect(Collectors.toList());
 		Flux<String> flux = Flux.fromIterable(beans).delayElements(Duration.ofMillis(200));
 		IReactiveDataDriverContextVariable dataDriver =
-				new ReactiveDataDriverContextVariable( flux,10);
+				new ReactiveDataDriverContextVariable(flux, 10);
 
 		model.addAttribute("beans", dataDriver);
 

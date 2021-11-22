@@ -71,7 +71,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.authorizeRequests(
 						authorize -> authorize.mvcMatchers("/*/edit/*", "/*/delete/*", "/h2-console/**")
 								.hasRole("ADMIN")
-							  .anyRequest().permitAll()
+								.anyRequest().permitAll()
 				).formLogin(
 						formLogin -> formLogin.loginPage("/login")
 								.failureUrl("/login?auth_error=1")

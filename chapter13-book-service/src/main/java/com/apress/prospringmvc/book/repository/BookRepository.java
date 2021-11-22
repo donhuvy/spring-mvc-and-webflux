@@ -44,6 +44,6 @@ public interface BookRepository extends ReactiveMongoRepository<Book, String>, C
 
 	Mono<Book> findByIsbn(String isbn);
 
-	@Query(value= "{}", fields ="{'id': 1, 'isbn' : 1, 'category'  :1 }")
+	@Query(value = "{}", fields = "{'id': 1, 'isbn' : 1, 'category'  :1 }")
 	Flux<Book> findAllLight();
 }

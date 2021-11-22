@@ -44,17 +44,10 @@ import javax.annotation.PostConstruct;
 @Component
 public class DataInitializer {
 
-	public static class Category {
-		public static final String SPRING = "Spring";
-		public static final String JAVA = "Java";
-		public static final String WEB = "Web";
-	}
-
-	@Autowired ReactiveMongoOperations operations;
-
 	private final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
-
 	private final BookRepository bookRepo;
+	@Autowired
+	ReactiveMongoOperations operations;
 
 	public DataInitializer(BookRepository bookRepo) {
 		this.bookRepo = bookRepo;
@@ -62,23 +55,29 @@ public class DataInitializer {
 
 	@PostConstruct
 	public void init() {
-		  operations.collectionExists(Book.class)
+		operations.collectionExists(Book.class)
 				.flatMap(exists -> exists ? operations.dropCollection(Book.class) : Mono.just(exists))
 				.then(operations.createCollection(Book.class, CollectionOptions.empty())).subscribe(
-					data -> logger.info("Collection saved: {}" , data ),
-					error -> logger.info("Opps!"),
-					() -> logger.info("Collection initialized!")
-					);
+						data -> logger.info("Collection saved: {}", data),
+						error -> logger.info("Opps!"),
+						() -> logger.info("Collection initialized!")
+				);
 
 		logger.info(" -->> Starting collection initialization...");
-		bookRepo.saveAll(	Flux.just(
+		bookRepo.saveAll(Flux.just(
 				new Book("Spring Boot 2 Recipes", "Marten Deinum", "9781484227893", Category.SPRING),
-				new Book("Pivotal Certified Professional Core Spring 5 Developer Exam",  "Iuliana Cosmina", "9781484251355", Category.SPRING),
-				new Book("Java for Absolute Beginners",  "Iuliana Cosmina", "9781484237779", Category.JAVA)
+				new Book("Pivotal Certified Professional Core Spring 5 Developer Exam", "Iuliana Cosmina", "9781484251355", Category.SPRING),
+				new Book("Java for Absolute Beginners", "Iuliana Cosmina", "9781484237779", Category.JAVA)
 		)).subscribe(
 				data -> logger.info("Saved {} books", data),
 				error -> logger.error("Oops!"),
 				() -> logger.info("Collection initialized!")
 		);
+	}
+
+	public static class Category {
+		public static final String SPRING = "Spring";
+		public static final String JAVA = "Java";
+		public static final String WEB = "Web";
 	}
 }

@@ -48,8 +48,11 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.apress.prospringmvc.bookstore.document.Book.Category.*;
-import static com.apress.prospringmvc.bookstore.util.ServiceProblems.*;
+import static com.apress.prospringmvc.bookstore.document.Book.Category.JAVA;
+import static com.apress.prospringmvc.bookstore.document.Book.Category.SPRING;
+import static com.apress.prospringmvc.bookstore.document.Book.Category.WEB;
+import static com.apress.prospringmvc.bookstore.util.ServiceProblems.ServiceDeniedException;
+import static com.apress.prospringmvc.bookstore.util.ServiceProblems.ServiceDownException;
 
 /**
  * Created by Iuliana Cosmina on 27/07/2020
@@ -75,12 +78,12 @@ public class BookSearchController {
 	}
 
 	@GetMapping(path = "/book/search")
-	public String load(){
+	public String load() {
 		return "book/search";
 	}
 
-	@RequestMapping( value = "/book/new", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public String newBooks(final Model model){
+	@RequestMapping(value = "/book/new", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public String newBooks(final Model model) {
 		WebClient webClient = WebClient.builder()
 				.baseUrl("http://localhost:8080/book/random-news")
 				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -91,14 +94,14 @@ public class BookSearchController {
 				.uri("/")
 				.retrieve()
 				.onStatus(HttpStatus::is4xxClientError, response ->
-						Mono.error( response.statusCode() == HttpStatus.UNAUTHORIZED
-							? new ServiceDeniedException("You shall not pass!")
- 							: new ServiceDeniedException("Well.. this is unfortunate!"))
+						Mono.error(response.statusCode() == HttpStatus.UNAUTHORIZED
+								? new ServiceDeniedException("You shall not pass!")
+								: new ServiceDeniedException("Well.. this is unfortunate!"))
 				)
 				.onStatus(HttpStatus::is5xxServerError, response ->
 						Mono.error(response.statusCode() == HttpStatus.INTERNAL_SERVER_ERROR
-							? new ServiceDownException("This is SpartAAA!!")
-							: new ServiceDownException("Well.. this is a mistery!"))
+								? new ServiceDownException("This is SpartAAA!!")
+								: new ServiceDownException("Well.. this is a mistery!"))
 				)
 				.bodyToFlux(Book.class);
 
@@ -110,14 +113,14 @@ public class BookSearchController {
 		return "book/search :: #newBooks";
 	}
 
-	@RequestMapping( value = "/tech/news", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public String techNews(final Model model){
+	@RequestMapping(value = "/tech/news", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public String techNews(final Model model) {
 		final WebClient webClient = WebClient.create("http://localhost:3000/techNews");
 
 		Flux<String> newReleases = webClient.get().uri("/")
 				.retrieve()
 				.onStatus(HttpStatus::is4xxClientError, response ->
-						Mono.error( response.statusCode() == HttpStatus.UNAUTHORIZED
+						Mono.error(response.statusCode() == HttpStatus.UNAUTHORIZED
 								? new ServiceDeniedException("You shall not pass!")
 								: new ServiceDeniedException("Well.. this is unfortunate!"))
 				)

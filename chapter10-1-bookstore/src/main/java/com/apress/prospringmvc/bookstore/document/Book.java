@@ -1,45 +1,30 @@
 package com.apress.prospringmvc.bookstore.document;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Document(collection="book")
+@Document(collection = "book")
 public class Book {
-	public static class Category {
-		public static final String SPRING = "Spring";
-		public static final String JAVA = "Java";
-		public static final String WEB = "Web";
-	}
-
 	@Id
 	private String id;
-
-  @NotEmpty
+	@NotEmpty
 	private String title;
-
 	private String description;
-
 	@NotEmpty
 	private BigDecimal price;
-
 	private Integer year;
-
 	@NotEmpty
 	private String author;
-
 	@NotEmpty
 	@Indexed(unique = true)
 	private String isbn;
-
 	@NotEmpty
 	// Just limit to {"Spring", "Java", "Web"}
 	//just embed here
@@ -147,5 +132,11 @@ public class Book {
 		builder.append("author", this.author);
 		builder.append("isbn", this.isbn);
 		return builder.build();
+	}
+
+	public static class Category {
+		public static final String SPRING = "Spring";
+		public static final String JAVA = "Java";
+		public static final String WEB = "Web";
 	}
 }

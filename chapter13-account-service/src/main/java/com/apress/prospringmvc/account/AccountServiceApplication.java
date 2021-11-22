@@ -31,10 +31,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.function.server.*;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerResponse;
 
-import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
 
 /**
  * Created by Iuliana Cosmina on 29/08/2020
@@ -51,7 +55,7 @@ public class AccountServiceApplication {
 	}
 
 	@Bean
-	public RouterFunction<ServerResponse> router(AccountHandler handler){
+	public RouterFunction<ServerResponse> router(AccountHandler handler) {
 		return RouterFunctions
 				.route(GET("/"), handler.main) // curl  http://localhost:6002
 				.andRoute(GET("/index.htm"), handler.main)

@@ -72,13 +72,13 @@ public class BookDetailController {
 				.uri(
 						uriBuilder -> uriBuilder.path("/id/{id}")
 								.build(bookId)
-				 )
+				)
 				.retrieve()
 				.bodyToMono(Book.class)
 				.flux();
 
 		IReactiveDataDriverContextVariable dataDriver =
-				new ReactiveDataDriverContextVariable( bookFlux,1);
+				new ReactiveDataDriverContextVariable(bookFlux, 1);
 
 		model.addAttribute("books", dataDriver);
 

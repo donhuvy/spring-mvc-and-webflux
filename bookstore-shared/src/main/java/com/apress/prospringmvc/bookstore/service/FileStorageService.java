@@ -1,6 +1,5 @@
 package com.apress.prospringmvc.bookstore.service;
 
-import com.apress.prospringmvc.bookstore.util.WebFile;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 

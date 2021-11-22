@@ -27,7 +27,6 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore.web.config.sec;
 
-import com.apress.prospringmvc.bookstore.web.config.sec.BookstoreAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -74,9 +73,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 								.hasRole("ADMIN")
 								.anyRequest().permitAll()
 				).formLogin(
-				formLogin -> formLogin.loginPage("/login")
-						.failureUrl("/login?auth_error=1")
-		).logout(Customizer.withDefaults())
+						formLogin -> formLogin.loginPage("/login")
+								.failureUrl("/login?auth_error=1")
+				).logout(Customizer.withDefaults())
 				.csrf().csrfTokenRepository(repo());
 	}
 

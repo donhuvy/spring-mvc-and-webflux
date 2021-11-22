@@ -11,9 +11,9 @@ Time: 11:24
 
 <body>
 <div id="wrap">
-    <div id="header" th:replace="~{template/layout :: header}" ></div>
+    <div id="header" th:replace="~{template/layout :: header}"></div>
     <div class="center_content">
-        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}" >
+        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}">
             <h1 id="pagetitle" th:text="#{customer.list.title}">ALL ACCOUNTS</h1>
             <table th:if="${not #lists.isEmpty(accounts)}">
                 <thead>
@@ -33,18 +33,18 @@ Time: 11:24
                         <td th:text="${account.username}">USERNAME</td>
                         <td th:text="${account.emailAddress}">EMAIL</td>
                         <td>
-                           <a th:href="@{'/customer/delete/' + ${account.username}}" th:text="#{label.delete}"></a>
+                            <a th:href="@{'/customer/delete/' + ${account.username}}" th:text="#{label.delete}"></a>
                         </td>
                     </tr>
                 </th:block>
                 </tbody>
             </table>
         </div>
-        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}" ></div>
+        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}"></div>
         <div class="clear"></div>
     </div> <!-- end of center_content -->
 
-    <div class="footer" id="footer" th:replace="~{template/layout :: footer}" ></div>
+    <div class="footer" id="footer" th:replace="~{template/layout :: footer}"></div>
 </div>
 </body>
 </html>

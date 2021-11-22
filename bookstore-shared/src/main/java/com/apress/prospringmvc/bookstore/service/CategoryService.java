@@ -4,10 +4,8 @@ import com.apress.prospringmvc.bookstore.domain.Category;
 
 /**
  * Contract for services that work with an {@link Category}.
- * 
+ *
  * @author Marten Deinum
-
- * 
  */
 public interface CategoryService {
 

@@ -9,11 +9,11 @@ import java.util.Optional;
 
 /**
  * Repository for working with {@link Category} domain objects
- *  
+ *
  * @author Marten Deinum
  */
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 	@Query("select c from Category c where c.name=:name")
-	Optional<Category> findByName(@Param("name")String name);
+	Optional<Category> findByName(@Param("name") String name);
 }

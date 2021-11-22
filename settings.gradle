@@ -29,7 +29,7 @@ include 'chapter13-presentation-service'
 include 'chapter13-book-service'
 
 rootProject.name = 'Spring MVC and WebFlux'
-rootProject.children.each {project ->
+rootProject.children.each { project ->
 	project.buildFileName = "${project.name}.gradle"
 }
 

@@ -49,15 +49,15 @@ public class BookPopulator {
 		this.bookRepository = bookRepository;
 
 		List<Book> books = List.of(
-				new Book("Pro Spring MVC an Webdlux", BigDecimal.valueOf(50.99), 2020,"Iuliana Cosmina & Marten Deinum", "9781484227123", Book.Category.WEB),
-				new Book("Spring Boot 2 Recipes", BigDecimal.valueOf(37.44), 2017,"Marten Deinum", "9781484227893", Book.Category.SPRING),
-				new Book("Pivotal Certified Professional Core Spring 5 Developer Exam", BigDecimal.valueOf(54.99), 2018,"Iuliana Cosmina", "9781484251355", Book.Category.SPRING),
-				new Book("Java for Absolute Beginners", BigDecimal.valueOf(24.99), 2020,"Iuliana Cosmina", "9781484237779", Book.Category.JAVA),
-				new Book("Java for Absolute Beginners, 2nd Edition", BigDecimal.valueOf(54.99), 2021,"Iuliana Cosmina", "9781484230042", Book.Category.JAVA)
+				new Book("Pro Spring MVC an Webdlux", BigDecimal.valueOf(50.99), 2020, "Iuliana Cosmina & Marten Deinum", "9781484227123", Book.Category.WEB),
+				new Book("Spring Boot 2 Recipes", BigDecimal.valueOf(37.44), 2017, "Marten Deinum", "9781484227893", Book.Category.SPRING),
+				new Book("Pivotal Certified Professional Core Spring 5 Developer Exam", BigDecimal.valueOf(54.99), 2018, "Iuliana Cosmina", "9781484251355", Book.Category.SPRING),
+				new Book("Java for Absolute Beginners", BigDecimal.valueOf(24.99), 2020, "Iuliana Cosmina", "9781484237779", Book.Category.JAVA),
+				new Book("Java for Absolute Beginners, 2nd Edition", BigDecimal.valueOf(54.99), 2021, "Iuliana Cosmina", "9781484230042", Book.Category.JAVA)
 		);
 
 		bookRepository.deleteAll().thenMany(
-				bookRepository.saveAll(books))
+						bookRepository.saveAll(books))
 				.thenMany(bookRepository.findAll())
 				.subscribe(
 						data -> logger.info("found books: {}", bookRepository),

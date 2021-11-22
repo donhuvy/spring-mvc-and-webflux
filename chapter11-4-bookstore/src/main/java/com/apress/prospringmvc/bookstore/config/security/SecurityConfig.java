@@ -38,8 +38,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
-
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
@@ -51,7 +49,7 @@ import java.net.URI;
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
 
 	@Bean
 	SecurityWebFilterChain authorization(ServerHttpSecurity http) {

@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * A account resembles an authenticated user of our system. A account is able to submit orders. A account is identified
@@ -20,115 +19,100 @@ import java.util.UUID;
  * information we also store basic legal information such as address, firstname, lastname and email address.
  *
  * @author Marten Deinum
-
- *
  */
-@Document(collection="account")
+@Document(collection = "account")
 @SuppressWarnings("serial")
 public class Account implements Serializable {
 
-	public static class Authority {
-		public static final String ROLE_USER = "ROLE_USER";
-		public static final String ROLE_ADMIN = "ROLES_ADMIN";
+	@Id
+	private String id;
+	private String firstName;
+	private String lastName;
+	@DateFormat(format = "YYYY-MM-DD")
+	private Date dateOfBirth;
+	@Valid
+	// mongo one-to-one, embedded
+	private Address address = new Address();
+	@NotEmpty
+	@Email
+	private String emailAddress;
+	@NotEmpty
+	@Indexed(unique = true)
+	private String username;
+	@NotEmpty
+	private String password;
+	private List<Order> orders;
+	// make sure to restrict values to a limited set like ("ROLE_USER", "ROLE_ADMIN")
+	// mongo one-to-few, embedded
+	private List<String> roles = new ArrayList<>();
+
+	public String getId() {
+		return this.id;
 	}
 
-    @Id
-    private String id;
+	public String getFirstName() {
+		return this.firstName;
+	}
 
-    private String firstName;
-    private String lastName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    @DateFormat(format = "YYYY-MM-DD")
-    private Date dateOfBirth;
+	public String getLastName() {
+		return this.lastName;
+	}
 
-    @Valid
-		// mongo one-to-one, embedded
-    private Address address = new Address();
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    @NotEmpty
-    @Email
-    private String emailAddress;
+	public String getEmailAddress() {
+		return this.emailAddress;
+	}
 
-    @NotEmpty
-		@Indexed(unique = true)
-    private String username;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
 
-    @NotEmpty
-    private String password;
+	public String getUsername() {
+		return this.username;
+	}
 
-    private List<Order> orders;
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    // make sure to restrict values to a limited set like ("ROLE_USER", "ROLE_ADMIN")
-		// mongo one-to-few, embedded
-    private List<String> roles = new ArrayList<>();
+	public String getPassword() {
+		return this.password;
+	}
 
-    public String getId() {
-        return this.id;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getFirstName() {
-        return this.firstName;
-    }
+	public Address getAddress() {
+		return this.address;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
-    public String getLastName() {
-        return this.lastName;
-    }
+	public Date getDateOfBirth() {
+		return this.dateOfBirth;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
 
-    public String getEmailAddress() {
-        return this.emailAddress;
-    }
+	public List<String> getRoles() {
+		return this.roles;
+	}
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Address getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Date getDateOfBirth() {
-        return this.dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public List<String> getRoles() {
-        return this.roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
 
 	public List<Order> getOrders() {
 		return orders;
@@ -138,10 +122,10 @@ public class Account implements Serializable {
 		this.orders = orders;
 	}
 
-	public Account addOrder(Order order){
-    	this.orders.add(order);
-    	order.setAccount(this);
-    	return this;
+	public Account addOrder(Order order) {
+		this.orders.add(order);
+		order.setAccount(this);
+		return this;
 	}
 
 	@Override
@@ -158,5 +142,10 @@ public class Account implements Serializable {
 				", roles=" + roles + '\'' +
 				", orders=" + orders +
 				'}';
+	}
+
+	public static class Authority {
+		public static final String ROLE_USER = "ROLE_USER";
+		public static final String ROLE_ADMIN = "ROLES_ADMIN";
 	}
 }

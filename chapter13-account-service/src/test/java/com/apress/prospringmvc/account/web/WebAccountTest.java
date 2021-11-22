@@ -50,7 +50,7 @@ public class WebAccountTest {
 	private WebTestClient testClient;
 
 	@Test
-	public void shouldReturnAllUsers(){
+	public void shouldReturnAllUsers() {
 		testClient.get()
 				.uri(uriBuilder -> uriBuilder.path("/account").build())
 				.exchange()
@@ -61,7 +61,7 @@ public class WebAccountTest {
 	}
 
 	@Test
-	public void shouldReturnAUser(){
+	public void shouldReturnAUser() {
 		testClient.get()
 				.uri(uriBuilder -> uriBuilder.path("/account/{username}").build("john"))
 				.accept(MediaType.APPLICATION_JSON)

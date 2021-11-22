@@ -31,54 +31,52 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 /**
- *  
  * @author Marten Deinum
-
- *
  */
 @Controller
 @RequestMapping("/customer/account")
 @SessionAttributes(types = Account.class)
 public class AccountController {
 
-    @Autowired
-    private AccountRepository accountRepository;
+	@Autowired
+	private AccountRepository accountRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 
-    @Autowired
-		private FileStorageService fileStorageService;
+	@Autowired
+	private FileStorageService fileStorageService;
 
-    @ModelAttribute("countries")
-    public Map<String, String> countries(Locale currentLocale) {
-        var countries = new TreeMap<String, String>();
-        for (var locale : Locale.getAvailableLocales()) {
-            countries.put(locale.getCountry(), locale.getDisplayCountry(currentLocale));
-        }
-        return countries;
-    }
+	@ModelAttribute("countries")
+	public Map<String, String> countries(Locale currentLocale) {
+		var countries = new TreeMap<String, String>();
+		for (var locale : Locale.getAvailableLocales()) {
+			countries.put(locale.getCountry(), locale.getDisplayCountry(currentLocale));
+		}
+		return countries;
+	}
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.setDisallowedFields("id");
-        binder.setRequiredFields("username", "emailAddress");
-    }
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.setDisallowedFields("id");
+		binder.setRequiredFields("username", "emailAddress");
+	}
 
-    @GetMapping
-    public String index(Model model, @SessionAttribute(value = LoginController.ACCOUNT_ATTRIBUTE, exposeAsModelAttribute = true) Account account) {
-        model.addAttribute("orders", this.orderRepository.findByAccount(account));
-			  model.addAttribute("fileOrders", getAsWebFiles());
-        return "customer/account";
-    }
+	@GetMapping
+	public String index(Model model, @SessionAttribute(value = LoginController.ACCOUNT_ATTRIBUTE, exposeAsModelAttribute = true) Account account) {
+		model.addAttribute("orders", this.orderRepository.findByAccount(account));
+		model.addAttribute("fileOrders", getAsWebFiles());
+		return "customer/account";
+	}
 
-	public List<WebFile> getAsWebFiles(){
+	public List<WebFile> getAsWebFiles() {
 		return fileStorageService.loadAll().map(
-				path -> new WebFile(path.getFileName().toString(), MvcUriComponentsBuilder.fromMethodName(AccountController.class,
-						"serveFileOrder", path.getFileName().toString()).build().toUri().toString()))
+						path -> new WebFile(path.getFileName().toString(), MvcUriComponentsBuilder.fromMethodName(AccountController.class,
+								"serveFileOrder", path.getFileName().toString()).build().toUri().toString()))
 				.collect(Collectors.toList());
 
 	}
+
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFileOrder(@PathVariable String filename) {
@@ -89,11 +87,11 @@ public class AccountController {
 	}
 
 
-	 @PostMapping
-	 @PutMapping
-    public String update(@ModelAttribute Account account) {
-        this.accountRepository.save(account);
-        return "redirect:/customer/account";
-    }
+	@PostMapping
+	@PutMapping
+	public String update(@ModelAttribute Account account) {
+		this.accountRepository.save(account);
+		return "redirect:/customer/account";
+	}
 
 }

@@ -34,11 +34,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.server.PathContainer;
-import org.springframework.web.reactive.function.server.*;
+import org.springframework.web.reactive.function.server.RequestPredicate;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.reactive.function.server.support.ServerRequestWrapper;
 
 import java.net.URI;
-import static org.springframework.web.reactive.function.server.RequestPredicates.*;
+
+import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
+import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
 
 /**
  * Created by Iuliana Cosmina on 27/07/2020
@@ -46,6 +54,16 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @Configuration
 public class RoutingConfig {
 	private static Logger logger = LoggerFactory.getLogger(RoutingConfig.class);
+
+	/**
+	 * Making URLs case insensitive using a RequestPredicate, applies only to functional endpoints
+	 *
+	 * @param target
+	 * @return
+	 */
+	private static RequestPredicate i(RequestPredicate target) {
+		return new CaseInsensitiveRequestPredicate(target);
+	}
 
 	@Bean
 	public RouterFunction<ServerResponse> staticRouter() {
@@ -69,15 +87,6 @@ public class RoutingConfig {
 					logger.info("Before handler invocation: " + request.path());
 					return next.handle(request);
 				});
-	}
-
-	/**
-	 * Making URLs case insensitive using a RequestPredicate, applies only to functional endpoints
-	 * @param target
-	 * @return
-	 */
-	private static RequestPredicate i(RequestPredicate target) {
-		return new CaseInsensitiveRequestPredicate(target);
 	}
 }
 

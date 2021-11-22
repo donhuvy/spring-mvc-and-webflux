@@ -55,11 +55,11 @@ public class IndexController implements ApplicationContextAware {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(path="/", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
-	public Flux<Pair<String,String>> index() {
-		List<Pair<String,String>> info = new ArrayList<>();
+	@GetMapping(path = "/", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+	public Flux<Pair<String, String>> index() {
+		List<Pair<String, String>> info = new ArrayList<>();
 		Arrays.stream(ctx.getBeanDefinitionNames()).forEach(beanName ->
-			info.add(Pair.of(beanName, ctx.getBean(beanName).getClass().getName()))
+				info.add(Pair.of(beanName, ctx.getBean(beanName).getClass().getName()))
 		);
 		return Flux.fromIterable(info);
 	}

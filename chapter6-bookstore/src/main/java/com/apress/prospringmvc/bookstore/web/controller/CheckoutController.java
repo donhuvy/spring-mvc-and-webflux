@@ -5,7 +5,6 @@ import com.apress.prospringmvc.bookstore.domain.Cart;
 import com.apress.prospringmvc.bookstore.domain.Order;
 import com.apress.prospringmvc.bookstore.service.BookstoreService;
 import com.apress.prospringmvc.bookstore.validation.OrderValidator;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 

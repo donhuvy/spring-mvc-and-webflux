@@ -40,7 +40,9 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Created by Iuliana Cosmina on 31/07/2020
@@ -53,7 +55,7 @@ public class BookApiTest {
 	private WebTestClient testClient;
 
 	@Test
-	void shouldFindByIsbn(){
+	void shouldFindByIsbn() {
 		testClient.get()
 				.uri(uriBuilder -> uriBuilder.path("/book/isbn/{isbn}").build("9781484230042"))
 				.accept(MediaType.APPLICATION_JSON)
@@ -75,7 +77,7 @@ public class BookApiTest {
 	}
 
 	@Test
-	void shouldFindByIsbnNot(){
+	void shouldFindByIsbnNot() {
 		testClient.get()
 				.uri(uriBuilder -> uriBuilder.path("/book/isbn/{isbn}").build("978148423test"))
 				.exchange()
@@ -126,7 +128,7 @@ public class BookApiTest {
 	}
 
 	@Test
-	void shouldDeleteByIsbn(){
+	void shouldDeleteByIsbn() {
 		testClient.delete()
 				.uri(uriBuilder -> uriBuilder.path("/book/isbn/{isbn}").build("9781484230042"))
 				.accept(MediaType.APPLICATION_JSON)
@@ -135,7 +137,7 @@ public class BookApiTest {
 	}
 
 	@Test
-	void shouldNotDeleteByIsbn(){
+	void shouldNotDeleteByIsbn() {
 		testClient.delete()
 				.uri(uriBuilder -> uriBuilder.path("/book/isbn/{isbn}").build("978148423test"))
 				.accept(MediaType.APPLICATION_JSON)
@@ -144,7 +146,7 @@ public class BookApiTest {
 	}
 
 	@Test
-	public void shouldReturnTwoBooks(){
+	public void shouldReturnTwoBooks() {
 		BookSearchCriteria criteria = new BookSearchCriteria();
 		criteria.setCategory(Book.Category.JAVA);
 

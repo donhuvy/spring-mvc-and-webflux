@@ -32,9 +32,10 @@ import com.apress.prospringmvc.account.document.Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import static com.apress.prospringmvc.account.document.Account.Authority;
 
 import java.util.List;
+
+import static com.apress.prospringmvc.account.document.Account.Authority;
 
 /**
  * Created by Iuliana Cosmina on 30/08/2020
@@ -86,7 +87,7 @@ public class AccountPopulator {
 		admin.setRoles(List.of(Authority.ROLE_ADMIN));
 
 		accountRepository.deleteAll().thenMany(
-				accountRepository.saveAll(List.of(john, jane, admin)))
+						accountRepository.saveAll(List.of(john, jane, admin)))
 				.thenMany(accountRepository.findAll())
 				.subscribe(
 						data -> logger.info("found accounts: {}", accountRepository),

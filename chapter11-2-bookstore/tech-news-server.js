@@ -34,7 +34,7 @@ function onConnect(ws) {
     ws.on('message', function (message) {
         console.log("From client: " + message);
         let rate = 100; // ms
-        if(message === 'Slow down mate!') {
+        if (message === 'Slow down mate!') {
             rate = 1000;
             clearInterval(interval); // stop emitting values until the next setInterval is called with the new rate value
         } else if (message === 'Faster mate!') {
@@ -47,7 +47,7 @@ function onConnect(ws) {
             if (ws.bufferedAmount === 0) {
                 ws.send(news[Math.floor(Math.random() * news.length)]);
                 console.log('bufferedAmount after onmessage: ' + ws.bufferedAmount)
-                console.log("the rate: " +  rate);
+                console.log("the rate: " + rate);
             }
         }, rate);
 

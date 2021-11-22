@@ -47,15 +47,15 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 public class ReactiveApplication {
 	private static final Logger logger = LoggerFactory.getLogger(ReactiveApplication.class);
 
+	public static void main(String... args) {
+		ConfigurableApplicationContext ctx = SpringApplication.run(ReactiveApplication.class, args);
+		ctx.registerShutdownHook();
+		logger.info("Application Started ...");
+	}
+
 	@Bean
 	RouterFunction<ServerResponse> routerIndex() {
 		return route(GET("/"), serverRequest -> ok().bodyValue("it works!"));
-	}
-
-	public static void main(String... args) {
-		ConfigurableApplicationContext ctx = SpringApplication.run( ReactiveApplication.class, args);
-		ctx.registerShutdownHook();
-		logger.info("Application Started ...");
 	}
 
 /*	@ResponseStatus(HttpStatus.OK)

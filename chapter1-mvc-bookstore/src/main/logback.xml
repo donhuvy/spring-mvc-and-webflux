@@ -14,6 +14,6 @@
 	<logger name="com.apress.prospringmvc.bookstore" level="debug"/>
 	<logger name="org.springframework" level="debug"/>
 	<root level="info">
-		<appender-ref ref="console" />
+		<appender-ref ref="console"/>
 	</root>
 </configuration>

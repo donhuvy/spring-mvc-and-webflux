@@ -8,10 +8,8 @@ import org.springframework.validation.Validator;
 
 /**
  * Validates {@link Order} domain objects
- * 
+ *
  * @author Marten Deinum
-
- * 
  */
 public class OrderValidator implements Validator {
 
@@ -31,9 +29,9 @@ public class OrderValidator implements Validator {
 	}
 
 	private void validateAddress(Address address, Errors errors, String type) {
-		ValidationUtils.rejectIfEmpty(errors, type + ".street", "required", new Object[] { "Street" });
-		ValidationUtils.rejectIfEmpty(errors, type + ".city", "required", new Object[] { "City" });
-		ValidationUtils.rejectIfEmpty(errors, type + ".country", "required", new Object[] { "Country" });
+		ValidationUtils.rejectIfEmpty(errors, type + ".street", "required", new Object[]{"Street"});
+		ValidationUtils.rejectIfEmpty(errors, type + ".city", "required", new Object[]{"City"});
+		ValidationUtils.rejectIfEmpty(errors, type + ".country", "required", new Object[]{"Country"});
 
 	}
 

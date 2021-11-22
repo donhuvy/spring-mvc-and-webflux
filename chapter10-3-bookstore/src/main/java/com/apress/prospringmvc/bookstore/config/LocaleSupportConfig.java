@@ -41,9 +41,9 @@ import org.springframework.web.server.i18n.LocaleContextResolver;
 @Configuration
 public class LocaleSupportConfig extends DelegatingWebFluxConfiguration {
 
-    @Override
-    protected LocaleContextResolver createLocaleContextResolver() {
-        return new CookieParamLocaleResolver("lang");
-    }
+	@Override
+	protected LocaleContextResolver createLocaleContextResolver() {
+		return new CookieParamLocaleResolver("lang");
+	}
 
 }

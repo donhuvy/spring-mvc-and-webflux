@@ -32,9 +32,6 @@ import com.apress.prospringmvc.bookstore.service.BookstoreService;
 import com.apress.prospringmvc.bookstore.util.BookSearchCriteria;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -42,7 +39,8 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
-import static org.springframework.web.reactive.function.server.ServerResponse.*;
+import static org.springframework.web.reactive.function.server.ServerResponse.noContent;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 
 /**
@@ -51,12 +49,13 @@ import static org.springframework.web.reactive.function.server.ServerResponse.*;
 @Component
 public class BookHandler {
 
-	private BookstoreService bookstoreService;
-
 	public HandlerFunction<ServerResponse> list;
 	public HandlerFunction<ServerResponse> random;
 	public HandlerFunction<ServerResponse> delete;
 	public HandlerFunction<ServerResponse> releases;
+	private BookstoreService bookstoreService;
+	public HandlerFunction<ServerResponse> update = serverRequest -> ServerResponse.noContent()
+			.build(bookstoreService.updateByIsbn(serverRequest.pathVariable("isbn"), serverRequest.bodyToMono(Book.class)));
 
 	public BookHandler(BookstoreService bookstoreService) {
 		this.bookstoreService = bookstoreService;
@@ -69,7 +68,7 @@ public class BookHandler {
 				.body(bookstoreService.findRandomBooks(), Book.class);
 
 		delete = serverRequest -> noContent()
-					.build(bookstoreService.deleteBook(serverRequest.pathVariable("isbn")));
+				.build(bookstoreService.deleteBook(serverRequest.pathVariable("isbn")));
 
 		releases = serverRequest -> ok().contentType(MediaType.TEXT_EVENT_STREAM)
 				.body(bookstoreService.randomBookNews(), Book.class);
@@ -80,9 +79,6 @@ public class BookHandler {
 				.flatMap(criteria -> ok().contentType(MediaType.APPLICATION_JSON)
 						.body(bookstoreService.findBooks(criteria), Book.class));
 	}
-
-	public HandlerFunction<ServerResponse> update = serverRequest -> ServerResponse.noContent()
-			.build(bookstoreService.updateByIsbn(serverRequest.pathVariable("isbn"), serverRequest.bodyToMono(Book.class)));
 
 	public Mono<ServerResponse> create(ServerRequest serverRequest) {
 		return serverRequest.bodyToMono(Book.class)

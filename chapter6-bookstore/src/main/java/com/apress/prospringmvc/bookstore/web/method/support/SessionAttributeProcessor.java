@@ -10,50 +10,50 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * {@code HandlerMethodReturnValueHandler} and {@code HandlerMethodArgumentResolver} implementation to 
+ * {@code HandlerMethodReturnValueHandler} and {@code HandlerMethodArgumentResolver} implementation to
  * handle a {@code SessionAttribute}.
- * 
+ *
  * @author Marten Deinum
  */
 public class SessionAttributeProcessor implements HandlerMethodReturnValueHandler, HandlerMethodArgumentResolver {
 
-    @Override
-    public boolean supportsReturnType(MethodParameter returnType) {
-        return returnType.getMethodAnnotation(SessionAttribute.class) != null;
-    }
+	@Override
+	public boolean supportsReturnType(MethodParameter returnType) {
+		return returnType.getMethodAnnotation(SessionAttribute.class) != null;
+	}
 
-    @Override
-    public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest) throws Exception {
+	@Override
+	public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
+																NativeWebRequest webRequest) throws Exception {
 
-        var annotation = returnType.getMethodAnnotation(SessionAttribute.class);
-        webRequest.setAttribute(annotation.value(), returnValue, WebRequest.SCOPE_SESSION);
-        exposeModelAttribute(annotation, returnValue, mavContainer);
-    }
+		var annotation = returnType.getMethodAnnotation(SessionAttribute.class);
+		webRequest.setAttribute(annotation.value(), returnValue, WebRequest.SCOPE_SESSION);
+		exposeModelAttribute(annotation, returnValue, mavContainer);
+	}
 
-    @Override
-    public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(SessionAttribute.class);
-    }
+	@Override
+	public boolean supportsParameter(MethodParameter parameter) {
+		return parameter.hasParameterAnnotation(SessionAttribute.class);
+	}
 
-    private void exposeModelAttribute(SessionAttribute annotation, Object value, ModelAndViewContainer mavContainer) {
-        if (annotation.exposeAsModelAttribute()) {
-            mavContainer.addAttribute(annotation.value(), value);
-        }
-    }
+	private void exposeModelAttribute(SessionAttribute annotation, Object value, ModelAndViewContainer mavContainer) {
+		if (annotation.exposeAsModelAttribute()) {
+			mavContainer.addAttribute(annotation.value(), value);
+		}
+	}
 
-    @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+	@Override
+	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+																NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        var annotation = parameter.getParameterAnnotation(SessionAttribute.class);
-        var value = webRequest.getAttribute(annotation.value(), WebRequest.SCOPE_SESSION);
+		var annotation = parameter.getParameterAnnotation(SessionAttribute.class);
+		var value = webRequest.getAttribute(annotation.value(), WebRequest.SCOPE_SESSION);
 
-        if (value == null && annotation.required()) {
-            throw new MissingServletRequestParameterException(annotation.value(), parameter.getParameterType()
-                    .getName());
-        }
-        exposeModelAttribute(annotation, value, mavContainer);
-        return value;
-    }
+		if (value == null && annotation.required()) {
+			throw new MissingServletRequestParameterException(annotation.value(), parameter.getParameterType()
+					.getName());
+		}
+		exposeModelAttribute(annotation, value, mavContainer);
+		return value;
+	}
 }

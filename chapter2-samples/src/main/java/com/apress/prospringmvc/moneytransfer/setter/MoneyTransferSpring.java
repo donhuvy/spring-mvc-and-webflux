@@ -1,7 +1,6 @@
 package com.apress.prospringmvc.moneytransfer.setter;
 
 import com.apress.prospringmvc.ApplicationContextLogger;
-import com.apress.prospringmvc.moneytransfer.domain.Transaction;
 import com.apress.prospringmvc.moneytransfer.service.MoneyTransferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -11,14 +11,12 @@ import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-/**
- * 
- * @author Marten Deinum
 
- *
+/**
+ * @author Marten Deinum
  */
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "role" }) })
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"role"})})
 @SuppressWarnings("serial")
 public class Role implements Serializable {
 

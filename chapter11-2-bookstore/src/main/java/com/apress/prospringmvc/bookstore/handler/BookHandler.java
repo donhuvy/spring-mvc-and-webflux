@@ -37,7 +37,9 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import static org.springframework.web.reactive.function.server.ServerResponse.*;
+import static org.springframework.web.reactive.function.server.ServerResponse.noContent;
+import static org.springframework.web.reactive.function.server.ServerResponse.notFound;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 
 /**
@@ -46,12 +48,11 @@ import static org.springframework.web.reactive.function.server.ServerResponse.*;
 @Component
 public class BookHandler {
 
-	private BookstoreService bookstoreService;
-
 	public HandlerFunction<ServerResponse> list;
 	public HandlerFunction<ServerResponse> random;
 	public HandlerFunction<ServerResponse> delete;
 	public HandlerFunction<ServerResponse> releases;
+	private BookstoreService bookstoreService;
 
 	public BookHandler(BookstoreService bookstoreService) {
 		this.bookstoreService = bookstoreService;
@@ -64,7 +65,7 @@ public class BookHandler {
 				.body(bookstoreService.findRandomBooks(), Book.class);
 
 		delete = serverRequest -> noContent()
-					.build(bookstoreService.deleteBook(serverRequest.pathVariable("isbn")));
+				.build(bookstoreService.deleteBook(serverRequest.pathVariable("isbn")));
 
 		releases = serverRequest -> ok().contentType(MediaType.TEXT_EVENT_STREAM)
 				.body(bookstoreService.randomBookNews(), Book.class);
@@ -82,7 +83,7 @@ public class BookHandler {
 		return bookMono
 				.flatMap(book -> ok().contentType(MediaType.APPLICATION_JSON)
 						.bodyValue(Book.class))
-					.switchIfEmpty(notFound().build());
+				.switchIfEmpty(notFound().build());
 	}
 
 }

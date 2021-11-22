@@ -27,8 +27,6 @@ SOFTWARE.
 */
 package com.apress.prospringmvc.bookstore.controller;
 
-import com.apress.prospringmvc.bookstore.document.Book;
-import com.apress.prospringmvc.bookstore.util.BookNewReleasesUtil;
 import com.apress.prospringmvc.bookstore.util.ServiceProblems;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -57,6 +55,7 @@ import java.util.stream.Collectors;
 @Controller
 public class IndexController implements ApplicationContextAware {
 
+	private static final WebClient webClient = WebClient.create("http://localhost:3000/techNews");
 	private ApplicationContext ctx;
 
 	@Override
@@ -76,14 +75,12 @@ public class IndexController implements ApplicationContextAware {
 		return Flux.fromIterable(beans).delayElements(Duration.ofMillis(200));
 	}
 
-	private static final WebClient webClient = WebClient.create("http://localhost:3000/techNews");
-
-	@GetMapping( value = "/tech/news", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public String techNews(final Model model){
+	@GetMapping(value = "/tech/news", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	public String techNews(final Model model) {
 		Flux<String> newReleases = webClient.get().uri("/")
 				.retrieve()
 				.onStatus(HttpStatus::is4xxClientError, response ->
-						Mono.error( response.statusCode() == HttpStatus.UNAUTHORIZED
+						Mono.error(response.statusCode() == HttpStatus.UNAUTHORIZED
 								? new ServiceProblems.ServiceDeniedException("You shall not pass!")
 								: new ServiceProblems.ServiceDeniedException("Well.. this is unfortunate!"))
 				)

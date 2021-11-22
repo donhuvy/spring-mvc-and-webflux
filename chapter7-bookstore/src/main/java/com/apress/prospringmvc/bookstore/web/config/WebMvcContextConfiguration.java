@@ -19,11 +19,11 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -34,117 +34,118 @@ import java.util.Properties;
 
 /**
  * Configures Spring MVC.
- * 
+ *
  * @author Marten Deinum
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.apress.prospringmvc.bookstore" })
+@ComponentScan(basePackages = {"com.apress.prospringmvc.bookstore"})
 public class WebMvcContextConfiguration implements WebMvcConfigurer {
 
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**/*").addResourceLocations("classpath:/META-INF/resources/");
-    }
+	@Override
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**/*").addResourceLocations("classpath:/META-INF/resources/");
+	}
 
-    @Override
-    public void addViewControllers(final ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
-        registry.addViewController("/index.htm").setViewName("index");
-			registry.addViewController("/index.htm").setViewName("index");
-    }
+	@Override
+	public void addViewControllers(final ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("index");
+		registry.addViewController("/index.htm").setViewName("index");
+		registry.addViewController("/index.htm").setViewName("index");
+	}
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
-        registry.addWebRequestInterceptor(commonDataInterceptor());
-        registry.addInterceptor(new SecurityHandlerInterceptor())
-                .addPathPatterns("/customer/account", "/cart/checkout");
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeChangeInterceptor());
+		registry.addWebRequestInterceptor(commonDataInterceptor());
+		registry.addInterceptor(new SecurityHandlerInterceptor())
+				.addPathPatterns("/customer/account", "/cart/checkout");
+	}
 
-    @Bean
-    public WebRequestInterceptor commonDataInterceptor() {
-        return new CommonDataInterceptor();
-    }
+	@Bean
+	public WebRequestInterceptor commonDataInterceptor() {
+		return new CommonDataInterceptor();
+	}
 
-    @Bean
-    public SessionAttributeProcessor sessionAttributeProcessor() {
-        return new SessionAttributeProcessor();
-    }
+	@Bean
+	public SessionAttributeProcessor sessionAttributeProcessor() {
+		return new SessionAttributeProcessor();
+	}
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(sessionAttributeProcessor());
-    }
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(sessionAttributeProcessor());
+	}
 
-    @Override
-    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
-        returnValueHandlers.add(sessionAttributeProcessor());
-    }
+	@Override
+	public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
+		returnValueHandlers.add(sessionAttributeProcessor());
+	}
 
-    //-- Start Locale Support (I18N) --//
+	//-- Start Locale Support (I18N) --//
 
-    /**
-     * The {@link LocaleChangeInterceptor} allows for the locale to be changed. It provides a <code>paramName</code> property which sets 
-     * the request parameter to check for changing the language, the default is <code>locale</code>.
-     * @return the {@link LocaleChangeInterceptor}
-     */
-    @Bean
-    public HandlerInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("lang");
-        return localeChangeInterceptor;
-    }
+	/**
+	 * The {@link LocaleChangeInterceptor} allows for the locale to be changed. It provides a <code>paramName</code> property which sets
+	 * the request parameter to check for changing the language, the default is <code>locale</code>.
+	 *
+	 * @return the {@link LocaleChangeInterceptor}
+	 */
+	@Bean
+	public HandlerInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("lang");
+		return localeChangeInterceptor;
+	}
 
-    /**
-     * The {@link LocaleResolver} implementation to use. Specifies where to store the current selected locale.
-     * 
-     * @return the {@link LocaleResolver}
-     */
-    @Bean
-    public LocaleResolver localeResolver() {
-        return new CookieLocaleResolver();
-    }
+	/**
+	 * The {@link LocaleResolver} implementation to use. Specifies where to store the current selected locale.
+	 *
+	 * @return the {@link LocaleResolver}
+	 */
+	@Bean
+	public LocaleResolver localeResolver() {
+		return new CookieLocaleResolver();
+	}
 
-    //-- End Locale Support (I18N) --//
+	//-- End Locale Support (I18N) --//
 
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(categoryConverter());
-				registry.addFormatterForFieldAnnotation(new DateFormatAnnotationFormatterFactory());
-		}
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		registry.addConverter(categoryConverter());
+		registry.addFormatterForFieldAnnotation(new DateFormatAnnotationFormatterFactory());
+	}
 
-    @Bean
-    public StringToEntityConverter categoryConverter() {
-        return new StringToEntityConverter(Category.class);
-    }
+	@Bean
+	public StringToEntityConverter categoryConverter() {
+		return new StringToEntityConverter(Category.class);
+	}
 
-    @Bean()
-    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public Cart cart() {
-        return new Cart();
-    }
+	@Bean()
+	@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+	public Cart cart() {
+		return new Cart();
+	}
 
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-        exceptionResolvers.add(simpleMappingExceptionResolver());
-    }
+	@Override
+	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+		exceptionResolvers.add(simpleMappingExceptionResolver());
+	}
 
-    @Bean
-    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
-        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-        Properties mappings = new Properties();
-        mappings.setProperty("AuthenticationException", "login");
+	@Bean
+	public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+		SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+		Properties mappings = new Properties();
+		mappings.setProperty("AuthenticationException", "login");
 
-        Properties statusCodes = new Properties();
-        mappings.setProperty("login", String.valueOf(HttpServletResponse.SC_UNAUTHORIZED));
+		Properties statusCodes = new Properties();
+		mappings.setProperty("login", String.valueOf(HttpServletResponse.SC_UNAUTHORIZED));
 
-        exceptionResolver.setExceptionMappings(mappings);
-        exceptionResolver.setStatusCodes(statusCodes);
-        return exceptionResolver;
-    }
+		exceptionResolver.setExceptionMappings(mappings);
+		exceptionResolver.setStatusCodes(statusCodes);
+		return exceptionResolver;
+	}
 
-    /* Not necessary in a Spring Boot application */
+	/* Not necessary in a Spring Boot application */
   /*  @Bean
     public MultipartResolver multipartResolver(MultipartProperties multipartProperties) {
 			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();

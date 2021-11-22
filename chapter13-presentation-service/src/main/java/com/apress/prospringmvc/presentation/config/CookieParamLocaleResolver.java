@@ -30,7 +30,7 @@ public class CookieParamLocaleResolver implements LocaleContextResolver {
 	public LocaleContext resolveLocaleContext(final ServerWebExchange exchange) {
 		Locale defaultLocale = getLocaleFromCookie(exchange);
 		List<String> referLang = exchange.getRequest().getQueryParams().get(languageParameterName);
-		if (!CollectionUtils.isEmpty(referLang) ) {
+		if (!CollectionUtils.isEmpty(referLang)) {
 			String lang = referLang.get(0);
 			defaultLocale = Locale.forLanguageTag(lang);
 			setLocaleToCookie(lang, exchange);
@@ -39,16 +39,16 @@ public class CookieParamLocaleResolver implements LocaleContextResolver {
 	}
 
 	private void setLocaleToCookie(final String languageValue, final ServerWebExchange exchange) {
-		MultiValueMap<String, HttpCookie> cookies =  exchange.getRequest().getCookies();
+		MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
 		HttpCookie langCookie = cookies.getFirst(LOCALE_REQUEST_ATTRIBUTE_NAME);
-		if(langCookie == null || !languageValue.equals(langCookie.getValue())) {
+		if (langCookie == null || !languageValue.equals(langCookie.getValue())) {
 			ResponseCookie cookie = ResponseCookie.from(LOCALE_REQUEST_ATTRIBUTE_NAME, languageValue).maxAge(Duration.ofMinutes(5)).build();
 			exchange.getResponse().addCookie(cookie);
 		}
 	}
 
-	private Locale getLocaleFromCookie(final ServerWebExchange exchange){
-		MultiValueMap<String, HttpCookie> cookies =  exchange.getRequest().getCookies();
+	private Locale getLocaleFromCookie(final ServerWebExchange exchange) {
+		MultiValueMap<String, HttpCookie> cookies = exchange.getRequest().getCookies();
 		HttpCookie langCookie = cookies.getFirst(LOCALE_REQUEST_ATTRIBUTE_NAME);
 		return langCookie != null ? Locale.forLanguageTag(langCookie.getValue()) : Locale.getDefault();
 	}

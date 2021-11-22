@@ -8,28 +8,27 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 /**
  * Spring MVC configuration for the View Technologies.
- * 
+ *
  * @author Marten Deinum
  * @author Koen Serneels
- * 
  */
 @Configuration
 public class ViewConfiguration {
 
-    @Bean
-    public TilesConfigurer tilesConfigurer() {
-      final TilesConfigurer configurer = new TilesConfigurer();
-      configurer.setDefinitions("WEB-INF/tiles.xml");
-      configurer.setCheckRefresh(true);
-      return configurer;
-    }
+	@Bean
+	public TilesConfigurer tilesConfigurer() {
+		final TilesConfigurer configurer = new TilesConfigurer();
+		configurer.setDefinitions("WEB-INF/tiles.xml");
+		configurer.setCheckRefresh(true);
+		return configurer;
+	}
 
-    @Bean
-    public TilesViewResolver tilesViewResolver() {
-        final TilesViewResolver resolver = new TilesViewResolver();
-        resolver.setViewClass(TilesView.class);
-			  resolver.setOrder(2);
-        return resolver;
-    }
+	@Bean
+	public TilesViewResolver tilesViewResolver() {
+		final TilesViewResolver resolver = new TilesViewResolver();
+		resolver.setViewClass(TilesView.class);
+		resolver.setOrder(2);
+		return resolver;
+	}
 
 }

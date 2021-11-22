@@ -44,7 +44,7 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @EnableWebFlux
 @Configuration
 @EnableReactiveMongoRepositories(basePackages = "com.apress.prospringmvc.bookstore")
-@ComponentScan(basePackages = { "com.apress.prospringmvc.bookstore"})
+@ComponentScan(basePackages = {"com.apress.prospringmvc.bookstore"})
 public class AppConfiguration {
 
 	@Bean

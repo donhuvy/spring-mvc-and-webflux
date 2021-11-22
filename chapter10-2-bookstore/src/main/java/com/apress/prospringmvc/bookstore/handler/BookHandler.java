@@ -53,11 +53,12 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 public class BookHandler {
 
-	private BookstoreService bookstoreService;
-
 	public HandlerFunction<ServerResponse> list;
 	public HandlerFunction<ServerResponse> random;
 	public HandlerFunction<ServerResponse> delete;
+	private BookstoreService bookstoreService;
+	public HandlerFunction<ServerResponse> update = serverRequest -> ServerResponse.noContent()
+			.build(bookstoreService.updateByIsbn(serverRequest.pathVariable("isbn"), serverRequest.bodyToMono(Book.class)));
 
 	public BookHandler(BookstoreService bookstoreService) {
 		this.bookstoreService = bookstoreService;
@@ -65,12 +66,12 @@ public class BookHandler {
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(bookstoreService.findBooks(new BookSearchCriteria()), Book.class);
 
-		random = serverRequest ->ok()
+		random = serverRequest -> ok()
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(bookstoreService.findRandomBooks(), Book.class);
 
 		delete = serverRequest -> ServerResponse.noContent()
-					.build(bookstoreService.deleteBook(serverRequest.pathVariable("isbn")));
+				.build(bookstoreService.deleteBook(serverRequest.pathVariable("isbn")));
 	}
 
 	public Mono<ServerResponse> search(ServerRequest serverRequest) {
@@ -78,9 +79,6 @@ public class BookHandler {
 				.flatMap(criteria -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
 						.body(bookstoreService.findBooks(criteria), Book.class));
 	}
-
-	public HandlerFunction<ServerResponse> update = serverRequest -> ServerResponse.noContent()
-			.build(bookstoreService.updateByIsbn(serverRequest.pathVariable("isbn"), serverRequest.bodyToMono(Book.class)));
 
 	public Mono<ServerResponse> create(ServerRequest serverRequest) {
 		return serverRequest.bodyToMono(Book.class)
@@ -104,7 +102,7 @@ public class BookHandler {
 		return bookstoreService.findBookByIsbn(request.pathVariable("isbn"))
 				.flatMap(book -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
 						.bodyValue(Book.class))
-					.switchIfEmpty(ServerResponse.notFound().build());
+				.switchIfEmpty(ServerResponse.notFound().build());
 	}
 
 	public Mono<ServerResponse> findOne(ServerRequest request) {

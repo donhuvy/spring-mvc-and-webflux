@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpSession;
 
 /**
- * Controller to handle logout. 
- * 
+ * Controller to handle logout.
+ *
  * @author Marten Deinum
  */
 @Controller
 public class LogoutController {
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/index.htm";
-    }
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/index.htm";
+	}
 
 }

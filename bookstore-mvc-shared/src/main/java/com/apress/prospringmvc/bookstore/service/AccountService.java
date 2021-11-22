@@ -4,13 +4,12 @@ import com.apress.prospringmvc.bookstore.domain.Account;
 
 /**
  * Contract for services that work with an {@link Account}.
- * 
- * @author Marten Deinum
  *
+ * @author Marten Deinum
  */
 public interface AccountService {
 
-    Account save(Account account);
+	Account save(Account account);
 
-    Account getAccount(String username);
+	Account getAccount(String username);
 }

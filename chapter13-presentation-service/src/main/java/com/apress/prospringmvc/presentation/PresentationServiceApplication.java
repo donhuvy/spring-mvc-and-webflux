@@ -63,13 +63,14 @@ public class PresentationServiceApplication {
 		ctx.close();
 	}
 
-	@LoadBalanced @Bean
+	@LoadBalanced
+	@Bean
 	WebClient.Builder webClientBuilder() {
 		return WebClient.builder();
 	}
 
 	@Bean
-	public RouterFunction<ServerResponse> router(PresentationHandler handler){
+	public RouterFunction<ServerResponse> router(PresentationHandler handler) {
 		return RouterFunctions
 				.route(GET("/"), handler.main) // curl  http://localhost:7000
 				.andRoute(GET("/index.htm"), handler.main) // curl -H "Accept:text/event-stream" http://localhost:4000/techNews

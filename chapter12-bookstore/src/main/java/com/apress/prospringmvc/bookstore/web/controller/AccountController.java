@@ -13,7 +13,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.security.Principal;
@@ -67,8 +75,8 @@ public class AccountController {
 
 	public List<WebFile> getAsWebFiles() {
 		return fileStorageService.loadAll().map(
-				path -> new WebFile(path.getFileName().toString(), MvcUriComponentsBuilder.fromMethodName(AccountController.class,
-						"serveFileOrder", path.getFileName().toString()).build().toUri().toString()))
+						path -> new WebFile(path.getFileName().toString(), MvcUriComponentsBuilder.fromMethodName(AccountController.class,
+								"serveFileOrder", path.getFileName().toString()).build().toUri().toString()))
 				.collect(Collectors.toList());
 
 	}

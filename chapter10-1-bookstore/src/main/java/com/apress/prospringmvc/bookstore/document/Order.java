@@ -2,10 +2,7 @@ package com.apress.prospringmvc.bookstore.document;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -22,7 +19,8 @@ public class Order {
 	@Id // TODO add autogenerator here
 	private String id;
 
-	@Transient private Account account;
+	@Transient
+	private Account account;
 
 	// mongo one-to-one, embedded
 	private Address shippingAddress;
@@ -37,7 +35,7 @@ public class Order {
 
 	private BigDecimal totalOrderPrice = BigDecimal.ZERO;
 
- // embed
+	// embed
 	private List<OrderDetail> orderDetails = new ArrayList<>();
 
 	public Order() {
@@ -83,8 +81,16 @@ public class Order {
 		return this.id;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public List<OrderDetail> getOrderDetails() {
 		return this.orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetail> details) {
+		this.orderDetails = details;
 	}
 
 	public Date getOrderDate() {
@@ -136,14 +142,6 @@ public class Order {
 	public void addOrderDetail(OrderDetail detail) {
 		this.orderDetails.add(detail);
 		this.totalOrderPrice = this.totalOrderPrice.add(detail.getPrice());
-	}
-
-	public void setOrderDetails(List<OrderDetail> details) {
-		this.orderDetails = details;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	@Override

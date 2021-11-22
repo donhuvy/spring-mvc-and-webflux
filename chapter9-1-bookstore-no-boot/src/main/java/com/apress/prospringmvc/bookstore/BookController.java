@@ -29,15 +29,18 @@ package com.apress.prospringmvc.bookstore;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.BaseSubscriber;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 
 import java.time.Duration;
-
-import static org.springframework.http.MediaType.APPLICATION_STREAM_JSON_VALUE;
 
 /**
  * Created by Iuliana Cosmina on 12/07/2020
@@ -60,7 +63,7 @@ public class BookController {
 	// deploy on Tomcat with context chapter9
 	//Test it using:  curl -H "Accept:text/event-stream" http://localhost:8080/chapter9/book
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(path="/books", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+	@GetMapping(path = "/books", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
 	public Flux<Book> books() {
 		Flux<Book> books = bookRepository.findAll();
 		Flux<Long> periodFlux = Flux.interval(Duration.ofSeconds(2)); // slowing the stream down
@@ -69,13 +72,13 @@ public class BookController {
 
 	@PutMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping(value="/books")
-	public Mono<Book> save(@RequestBody Book book){
-		 return bookRepository.save(book);
+	@PostMapping(value = "/books")
+	public Mono<Book> save(@RequestBody Book book) {
+		return bookRepository.save(book);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(path="books/{isbn}")
+	@GetMapping(path = "books/{isbn}")
 	public Mono<Book> show(@PathVariable String isbn) {
 		return bookRepository.findByIsbn(isbn);
 	}

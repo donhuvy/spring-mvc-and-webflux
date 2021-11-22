@@ -30,8 +30,6 @@ package com.apress.prospringmvc.bookstore.service;
 import com.apress.prospringmvc.bookstore.domain.Account;
 import com.apress.prospringmvc.bookstore.repository.AccountRepository;
 import com.apress.prospringmvc.bookstore.repository.RoleRepository;
-import com.apress.prospringmvc.bookstore.service.AccountService;
-import com.apress.prospringmvc.bookstore.service.AuthenticationException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

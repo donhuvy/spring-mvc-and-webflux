@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
@@ -7,12 +7,13 @@
         <legend><spring:message code="book.searchcriteria"/></legend>
         <table>
             <tr>
-                <td><form:label path="title"><spring:message code="book.title" /></form:label></td>
-                <td><form:input path="title" /></td>
+                <td><form:label path="title"><spring:message code="book.title"/></form:label></td>
+                <td><form:input path="title"/></td>
             </tr>
             <tr>
-                <td><form:label path="category"><spring:message code="book.category" /></form:label></td>
-                <td><form:select path="category" items="${categories}" itemValue="id" itemLabel="name"/></td></tr>
+                <td><form:label path="category"><spring:message code="book.category"/></form:label></td>
+                <td><form:select path="category" items="${categories}" itemValue="id" itemLabel="name"/></td>
+            </tr>
         </table>
     </fieldset>
     <input id="search" type="submit" value="<spring:message code="button.search"/>"/>
@@ -23,7 +24,7 @@
         <tr>
             <th><spring:message code="book.title"/></th>
             <th><spring:message code="book.description"/></th>
-            <th><spring:message code="book.price" /></th>
+            <th><spring:message code="book.price"/></th>
             <th></th>
         </tr>
         <c:forEach items="${bookList}" var="book">

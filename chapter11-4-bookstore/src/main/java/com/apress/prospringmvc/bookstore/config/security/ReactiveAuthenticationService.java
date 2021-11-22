@@ -52,7 +52,7 @@ public class ReactiveAuthenticationService implements ReactiveUserDetailsService
 	public Mono<UserDetails> findByUsername(String username) {
 		return accountRepository.findByUsername(username).switchIfEmpty(
 				Mono.defer(() -> Mono.error(new UsernameNotFoundException("User Not Found"))
-		)).map(this::toUserDetails);
+				)).map(this::toUserDetails);
 	}
 
 	private UserDetails toUserDetails(Account account) {

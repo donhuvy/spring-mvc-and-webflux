@@ -32,13 +32,13 @@ package com.apress.prospringmvc.bookstore.util;
  * @since 1.0
  */
 public class ConfigurationException extends RuntimeException {
-		private static final long serialVersionUID = 0L; // this class is not subject to serialization
+	private static final long serialVersionUID = 0L; // this class is not subject to serialization
 
 	public ConfigurationException(String message) {
-        super(message);
-    }
+		super(message);
+	}
 
-    public ConfigurationException(String message, Throwable cause) {
-        super(message, cause);
-    }
+	public ConfigurationException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

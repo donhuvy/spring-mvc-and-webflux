@@ -40,9 +40,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by Iuliana Cosmina on 06/06/2020
- */
 @Configuration
 public class DbConfiguration {
 
@@ -51,7 +48,6 @@ public class DbConfiguration {
 		Properties hibernateProp = new Properties();
 		hibernateProp.put("hibernate.dialect", connectionProperties().getProperty("db.dialect"));
 		hibernateProp.put("hibernate.hbm2ddl.auto", connectionProperties().getProperty("db.hbm2ddl"));
-
 		hibernateProp.put("hibernate.format_sql", true);
 		hibernateProp.put("hibernate.use_sql_comments", false); // set this on 'true' if you want to see the generated sql
 		hibernateProp.put("hibernate.show_sql", false); // set this on 'true' if you want to see the generated sql in a readable manner
@@ -59,7 +55,7 @@ public class DbConfiguration {
 	}
 
 	@Bean("connectionProperties")
-	Properties connectionProperties(){
+	Properties connectionProperties() {
 		try {
 			return PropertiesLoaderUtils.loadProperties(
 					new ClassPathResource("db.properties"));
@@ -88,15 +84,16 @@ public class DbConfiguration {
 
 	//needed because Hibernate does not drop the database and delete this file as it should
 	@PostConstruct
-	void discardDatabase(){
+	void discardDatabase() {
 		final String currentDir = System.getProperty("user.dir");
 		String dbUrl = connectionProperties().getProperty("db.url");
-		int start = dbUrl.indexOf("./")+ 2;
+		int start = dbUrl.indexOf("./") + 2;
 		int end = dbUrl.indexOf(";", start);
 		String dbName = dbUrl.substring(start, end);
-		File one  = new File(currentDir.concat(File.separator).concat(dbName).concat(".mv.db"));
+		File one = new File(currentDir.concat(File.separator).concat(dbName).concat(".mv.db"));
 		one.deleteOnExit();
-		File two  = new File(currentDir.concat(File.separator).concat(dbName).concat(".trace.db"));
+		File two = new File(currentDir.concat(File.separator).concat(dbName).concat(".trace.db"));
 		two.deleteOnExit();
 	}
+
 }

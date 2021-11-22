@@ -45,7 +45,7 @@ public class BookProdWebTest {
 			.build();
 
 	@Test
-	public void shouldReturnBook(){
+	public void shouldReturnBook() {
 		testClient.get()
 				.uri(uriBuilder -> uriBuilder.path("/by/{isbn}").build("9781484237779"))
 				.accept(MediaType.APPLICATION_JSON)

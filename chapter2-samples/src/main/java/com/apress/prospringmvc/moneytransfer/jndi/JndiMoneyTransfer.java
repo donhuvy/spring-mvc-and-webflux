@@ -1,6 +1,5 @@
 package com.apress.prospringmvc.moneytransfer.jndi;
 
-import com.apress.prospringmvc.moneytransfer.domain.Transaction;
 import com.apress.prospringmvc.moneytransfer.repository.MapBasedAccountRepository;
 import com.apress.prospringmvc.moneytransfer.repository.MapBasedTransactionRepository;
 import com.apress.prospringmvc.moneytransfer.simple.SimpleMoneyTransfer;

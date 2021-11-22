@@ -41,18 +41,7 @@ import java.util.Random;
  */
 public class ChatHandler extends TextWebSocketHandler {
 
-	@Override
-	public void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws IOException {
-		if(textMessage.getPayload().toLowerCase().contains("hello")||textMessage.getPayload().toLowerCase().contains("hi")) {
-			session.sendMessage(new TextMessage(BOT_ANSWERS.get(0)));
-			session.sendMessage(new TextMessage(BOT_ANSWERS.get(1)));
-		} else {
-			session.sendMessage(new TextMessage(randomMessages()));
-		}
-	}
-
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
-
 	private static final List<String> BOT_ANSWERS = List.of(
 			"Hello!",
 			"How can I help?",
@@ -69,5 +58,15 @@ public class ChatHandler extends TextWebSocketHandler {
 
 	private static String randomMessages() {
 		return BOT_ANSWERS.get(RANDOM.nextInt(BOT_ANSWERS.size() - 2) + 2);
+	}
+
+	@Override
+	public void handleTextMessage(WebSocketSession session, TextMessage textMessage) throws IOException {
+		if (textMessage.getPayload().toLowerCase().contains("hello") || textMessage.getPayload().toLowerCase().contains("hi")) {
+			session.sendMessage(new TextMessage(BOT_ANSWERS.get(0)));
+			session.sendMessage(new TextMessage(BOT_ANSWERS.get(1)));
+		} else {
+			session.sendMessage(new TextMessage(randomMessages()));
+		}
 	}
 }

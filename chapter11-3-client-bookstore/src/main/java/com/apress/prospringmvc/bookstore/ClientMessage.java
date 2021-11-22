@@ -50,12 +50,12 @@ public class ClientMessage {
 		this.author = author;
 	}
 
-	public ClientMessage name(String name){
+	public ClientMessage name(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public ClientMessage author(String author){
+	public ClientMessage author(String author) {
 		this.author = author;
 		return this;
 	}

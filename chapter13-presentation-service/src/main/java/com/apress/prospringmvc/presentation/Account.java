@@ -36,25 +36,18 @@ import java.util.List;
  */
 public class Account {
 
-	public static class Authority {
-		public static final String ROLE_USER = "ROLE_USER";
-		public static final String ROLE_ADMIN = "ROLES_ADMIN";
-	}
-
 	private String id;
-
 	private String firstName;
 	private String lastName;
-
 	private Date dateOfBirth;
-
 	// mongo one-to-one, embedded
 	private Address address = new Address();
-
 	private String emailAddress;
-
 	private String username;
 	private String password;
+	// make sure to restrict values to a limited set like ("ROLE_USER", "ROLE_ADMIN")
+	// mongo one-to-few, embedded
+	private List<String> roles = new ArrayList<>();
 
 	public Account() {
 	}
@@ -66,10 +59,6 @@ public class Account {
 		this.username = username;
 		this.password = password;
 	}
-
-	// make sure to restrict values to a limited set like ("ROLE_USER", "ROLE_ADMIN")
-	// mongo one-to-few, embedded
-	private List<String> roles = new ArrayList<>();
 
 	public String getId() {
 		return this.id;
@@ -152,5 +141,10 @@ public class Account {
 				", password='" + password + '\'' +
 				", roles=" + roles + '\'' +
 				'}';
+	}
+
+	public static class Authority {
+		public static final String ROLE_USER = "ROLE_USER";
+		public static final String ROLE_ADMIN = "ROLES_ADMIN";
 	}
 }

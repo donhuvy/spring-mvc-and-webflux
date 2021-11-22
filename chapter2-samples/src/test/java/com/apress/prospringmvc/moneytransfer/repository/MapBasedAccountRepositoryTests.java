@@ -9,35 +9,35 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class MapBasedAccountRepositoryTests {
 
-    private final MapBasedAccountRepository repository = new MapBasedAccountRepository();
+	private final MapBasedAccountRepository repository = new MapBasedAccountRepository();
 
-    @BeforeEach
-    public void setup() {
-        //Need to simulate calling of @PostContruct annotated method.
-        this.repository.initialize();
-    }
+	@BeforeEach
+	public void setup() {
+		//Need to simulate calling of @PostContruct annotated method.
+		this.repository.initialize();
+	}
 
-    @Test
-    public void nonExistingAccount() {
-    	assertThatThrownBy(() -> this.repository.find("foobar"))
+	@Test
+	public void nonExistingAccount() {
+		assertThatThrownBy(() -> this.repository.find("foobar"))
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageStartingWith("Non-Existing account ");
-    }
+	}
 
-    @Test
-    public void existingAccount() {
-        Account account = this.repository.find("123456");
-        assertThat(account)
-						.isNotNull()
-						.hasFieldOrPropertyWithValue("number", "123456");
-    }
+	@Test
+	public void existingAccount() {
+		Account account = this.repository.find("123456");
+		assertThat(account)
+				.isNotNull()
+				.hasFieldOrPropertyWithValue("number", "123456");
+	}
 
-    @Test
-    public void storeAndFind() {
-        Account account = new Account("foobar");
-        account.setOwner("F. BarBaz");
-        this.repository.store(account);
+	@Test
+	public void storeAndFind() {
+		Account account = new Account("foobar");
+		account.setOwner("F. BarBaz");
+		this.repository.store(account);
 
-        assertThat(this.repository.find("foobar")).isEqualTo(account);
-    }
+		assertThat(this.repository.find("foobar")).isEqualTo(account);
+	}
 }

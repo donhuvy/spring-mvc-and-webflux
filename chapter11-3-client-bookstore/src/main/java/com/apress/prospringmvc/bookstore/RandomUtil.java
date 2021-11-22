@@ -35,13 +35,12 @@ import java.util.Random;
  */
 public class RandomUtil {
 
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
-
 	public static final List<String> AUTHORS = List.of(
 			"Iuliana Cosmina",
 			"Marten Deinum",
 			"Josh Long"
 	);
+	private static final Random RANDOM = new Random(System.currentTimeMillis());
 
 	public static String randomAuthor() {
 		return AUTHORS.get(RANDOM.nextInt(AUTHORS.size()));

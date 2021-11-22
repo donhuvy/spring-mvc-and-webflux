@@ -54,16 +54,16 @@ public class ServerController {
 	// test using: `rsc ws://localhost:8081/rsocket --route introduction --log --debug -d "{\"name\": \"Gigi\"}"`
 	// fire-and-forget
 	@MessageMapping("introduction")
-	public Mono<Void> introduction(@Payload ClientMessage clientMessage){
-		logger.debug("{}:  We have a new client -->  {}" , Instant.now(), clientMessage.getName());
+	public Mono<Void> introduction(@Payload ClientMessage clientMessage) {
+		logger.debug("{}:  We have a new client -->  {}", Instant.now(), clientMessage.getName());
 		return Mono.empty();
 	}
 
 	@MessageMapping("check-service")
-	public Mono<String> checkService(@Payload ClientMessage clientMessage){
+	public Mono<String> checkService(@Payload ClientMessage clientMessage) {
 		// test using: `rsc ws://localhost:8081/rsocket --route check-service --log --debug -d "{\"name\": \"Gigi\"}"`
 		// request/response
-		logger.debug("{}:  Ping request from client --> {}" , Instant.now(), clientMessage.getName());
+		logger.debug("{}:  Ping request from client --> {}", Instant.now(), clientMessage.getName());
 		return Mono.just(Instant.now() + ": Service online. Send command.");
 	}
 
@@ -71,9 +71,9 @@ public class ServerController {
 	// test using: `rsc ws://localhost:8081/rsocket --stream --route show-books --log --debug -d "{\"name\": \"Gigi\"}"`
 	@MessageMapping("show-books")
 	public Flux<Book> showBooks(@Payload ClientMessage clientMessage) {
-		logger.debug("{}:  Random releases requested by client --> {}" , Instant.now(), clientMessage.getName());
+		logger.debug("{}:  Random releases requested by client --> {}", Instant.now(), clientMessage.getName());
 		return Flux.fromStream(
-				Stream.generate(BookNewReleasesUtil::randomRelease))
+						Stream.generate(BookNewReleasesUtil::randomRelease))
 				.delayElements(Duration.ofSeconds(1L));
 	}
 
@@ -104,7 +104,7 @@ public class ServerController {
 	@MessageMapping("books-channel")
 	public Flux<Book> useChannel(@Payload Flux<ClientMessage> messages) {
 		return messages
-				.map(message-> BookNewReleasesUtil.randomForAuthor(message.getAuthor()))
+				.map(message -> BookNewReleasesUtil.randomForAuthor(message.getAuthor()))
 				.delayElements(Duration.ofSeconds(1L));
 	}
 

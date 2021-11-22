@@ -37,7 +37,7 @@ import reactor.test.StepVerifier;
 public class ClientTest {
 
 	@Test
-	public void testRndAuthor(){
+	public void testRndAuthor() {
 		Flux<ClientMessage> messages = Flux.range(0, 10)
 				.map(i -> new ClientMessage().name("gigi").author(RandomUtil.randomAuthor()));
 

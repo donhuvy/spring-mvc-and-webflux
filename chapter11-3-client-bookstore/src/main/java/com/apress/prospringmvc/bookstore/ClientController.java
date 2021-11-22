@@ -50,13 +50,13 @@ public class ClientController {
 	}
 
 	@GetMapping("/")
-	public Mono<String> index(){
+	public Mono<String> index() {
 		return Mono.just("It works!");
 	}
 
 	//open in browser
 	@GetMapping("introduction")
-	public Mono<String> introduction(){
+	public Mono<String> introduction() {
 		ClientMessage clientMessage = new ClientMessage().name("gigi");
 		requester.route("introduction").data(clientMessage).send();
 		return Mono.just("Introduction data was sent.");
@@ -64,14 +64,14 @@ public class ClientController {
 
 	// open in browser
 	@GetMapping("check-service")
-	public Mono<String> checkService(){
+	public Mono<String> checkService() {
 		ClientMessage clientMessage = new ClientMessage().name("gigi");
 		return requester.route("check-service").data(clientMessage).retrieveMono(String.class);
 	}
 
 	//curl -H "Accept:text/event-stream" http://localhost:8080/show-books
 	@GetMapping(path = "show-books", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public Flux<Book> showBooks(){
+	public Flux<Book> showBooks() {
 		ClientMessage clientMessage = new ClientMessage().name("gigi");
 		return requester.route("show-books").data(clientMessage).retrieveFlux(Book.class).limitRate(20);
 	}

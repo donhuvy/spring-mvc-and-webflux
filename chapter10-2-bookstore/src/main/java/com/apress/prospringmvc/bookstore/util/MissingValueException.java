@@ -37,7 +37,7 @@ import java.util.List;
  * Created by Iuliana Cosmina on 25/08/2020
  */
 @SuppressWarnings("serial")
-public class MissingValueException extends  RuntimeException {
+public class MissingValueException extends RuntimeException {
 	private String fieldNames;
 
 	public MissingValueException(String message, String fieldNames) {
@@ -50,15 +50,15 @@ public class MissingValueException extends  RuntimeException {
 		this.fieldNames = fieldNames;
 	}
 
-	public String getFieldNames() {
-		return fieldNames;
-	}
-
 	public static MissingValueException of(List<ObjectError> errors) {
 		final List<String> fields = new ArrayList<>();
 		errors.forEach(err ->
 				fields.add(Arrays.stream(err.getArguments()).toArray(String[]::new)[0])
 		);
 		return new MissingValueException("Some values are missing!", fields.toString());
+	}
+
+	public String getFieldNames() {
+		return fieldNames;
 	}
 }

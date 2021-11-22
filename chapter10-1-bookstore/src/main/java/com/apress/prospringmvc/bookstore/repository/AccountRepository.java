@@ -35,12 +35,12 @@ import reactor.core.publisher.Mono;
 /**
  * Created by Iuliana Cosmina on 28/06/2020
  */
-public interface AccountRepository  extends ReactiveMongoRepository<Account, String> {
+public interface AccountRepository extends ReactiveMongoRepository<Account, String> {
 
 	@Query("{'username': ?0  }")
 	Mono<Account> findByUsername(String username);
 
-	@Query(value= "{'username': ?0  }", fields = "{'username': 1, 'password' :1, 'roles': 1 }")
+	@Query(value = "{'username': ?0  }", fields = "{'username': 1, 'password' :1, 'roles': 1 }")
 	Mono<Account> findLightByUsername(String username);
 
 }

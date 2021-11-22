@@ -11,22 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * {@code HandlerInterceptor} to apply security to controllers.
- * 
+ *
  * @author Marten Deinum
  */
 public class SecurityHandlerInterceptor implements HandlerInterceptor {
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        var account = (Account) WebUtils.getSessionAttribute(request, LoginController.ACCOUNT_ATTRIBUTE);
-        if (account == null) {
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		var account = (Account) WebUtils.getSessionAttribute(request, LoginController.ACCOUNT_ATTRIBUTE);
+		if (account == null) {
 
-            //Retrieve and store the original URL.
-            var url = request.getRequestURL().toString();
-            WebUtils.setSessionAttribute(request, LoginController.REQUESTED_URL, url);
-            throw new AuthenticationException("Authentication required.", "authentication.required");
-        }
-        return true;
-    }
+			//Retrieve and store the original URL.
+			var url = request.getRequestURL().toString();
+			WebUtils.setSessionAttribute(request, LoginController.REQUESTED_URL, url);
+			throw new AuthenticationException("Authentication required.", "authentication.required");
+		}
+		return true;
+	}
 
 }

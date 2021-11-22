@@ -33,12 +33,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * Created by Iuliana Cosmina on 29/07/2020
@@ -58,7 +55,7 @@ public class BookDetailController {
 		Flux<Book> bookFlux = bookstoreService.findBook(bookId).flux();
 
 		IReactiveDataDriverContextVariable dataDriver =
-				new ReactiveDataDriverContextVariable( bookFlux,1);
+				new ReactiveDataDriverContextVariable(bookFlux, 1);
 
 		model.addAttribute("books", dataDriver);
 
