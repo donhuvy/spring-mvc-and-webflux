@@ -11,41 +11,35 @@ Time: 11:47
 
 <body>
 <div id="wrap">
-    <div id="header" th:replace="~{template/layout :: header}"></div>
+    <div id="header" th:replace="~{template/layout :: header}" ></div>
     <div class="center_content">
-        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}">
+        <div class="left_content" id="left_content" th:fragment="~{template/layout :: left_content}" >
             <h1 id="pagetitle" th:text="#{login.title}">SEARCH TITLE</h1>
             <div class="error" th:if="${exception ne null}" th:text="${exception.message}"></div>
 
-            <form action="#" id="loginForm" method="POST" th:action="@{/login}">
+            <form action="#" th:action="@{/login}" method="POST" id="loginForm">
                 <fieldset>
                     <legend th:text="#{login.title}">LOGIN TITLE</legend>
                     <table>
                         <tr>
                             <td th:text="#{account.username}">USERNAME</td>
-                            <td><input id="username" name="username" th:placeholder="#{account.username}" type="text"/>
-                            </td>
+                            <td><input type="text" id="username" name="username" th:placeholder="#{account.username}"/></td>
                         </tr>
                         <tr>
                             <td th:text="#{account.password}">PASSWORD</td>
-                            <td><input id="password" name="password" th:placeholder="#{account.password}"
-                                       type="password"/></td>
+                            <td><input type="password" id="password" name="password" th:placeholder="#{account.password}"/></td>
                         </tr>
-                        <tr>
-                            <td align="center" colspan="2">
-                                <button id="login" th:text="#{button.login}">LOGIN</button>
-                            </td>
-                        </tr>
+                        <tr><td colspan="2" align="center"><button id="login" th:text="#{button.login}">LOGIN</button></td></tr>
                     </table>
                 </fieldset>
             </form>
         </div> <!-- end of left_content -->
 
-        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}"></div>
+        <div class="right_content" id="right_content" th:replace="~{template/layout :: right_content}" ></div>
         <div class="clear"></div>
     </div> <!-- end of center_content -->
 
-    <div class="footer" id="footer" th:replace="~{template/layout :: footer}"></div>
+    <div class="footer" id="footer" th:replace="~{template/layout :: footer}" ></div>
 </div>
 </body>
 </html>
